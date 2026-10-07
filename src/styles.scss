@@ -1,10 +1,65 @@
-* { box-sizing: border-box; margin: 0; padding: 0; }
+/* You can add global styles to this file, and also import other style files */
+:root {
+  --bg: #090d1a;
+  --sidebar: #0e1326;
+  --surface: #131a30;
+  --border: #1f2947;
+  --text: #ffffff;
+  --muted: #8f9bb3;
+  --dim: #4f5d75;
+  --teal: #00f5d4;
+  --teal-soft: rgba(0, 245, 212, 0.12);
+  --red: #ff5c5c;
+  --purple: #9e00ff;
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
 
-html, body { height: 100%; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  overflow-x: hidden;
+}
 
 body {
-  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  background: #1b1b1b;
-  color: #fff;
+  font-family: var(--font);
+  color: var(--text);
+  line-height: 1.21;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+p,
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+svg {
+  display: block;
+  flex-shrink: 0;
+}
+
