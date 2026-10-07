@@ -1,1 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: #1b1b1b;
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+}
