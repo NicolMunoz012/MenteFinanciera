@@ -1,0 +1,91 @@
+<main class="login">
+
+    <!-- Panel izquierdo -->
+    <aside class="brand-panel">
+      <div class="logo">
+        <span class="logo-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a0f1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </span>
+        <span class="logo-text">
+          <strong>Mente</strong>
+          <small>FINANCIERA</small>
+        </span>
+      </div>
+
+      <div class="brand-content">
+        <h2>Inteligencia para tus decisiones diarias</h2>
+        <p>Toma el control absoluto de tus finanzas con análisis de comportamiento impulsados por IA, alertas inteligentes y escaneo de gastos en tiempo real.</p>
+      </div>
+
+      <svg class="chart" viewBox="0 0 280 100" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#00f5d4" stop-opacity="0.16"/>
+            <stop offset="1" stop-color="#00f5d4" stop-opacity="0.04"/>
+          </linearGradient>
+        </defs>
+        <rect x="14" y="14" width="263" height="76" fill="url(#area)"/>
+        <line x1="0" y1="14" x2="280" y2="14" stroke="#2a3350" stroke-width="1" stroke-dasharray="3 4"/>
+        <line x1="0" y1="52" x2="280" y2="52" stroke="#2a3350" stroke-width="1" stroke-dasharray="3 4"/>
+        <line x1="0" y1="90" x2="280" y2="90" stroke="#2a3350" stroke-width="1" stroke-dasharray="3 4"/>
+        <polyline points="14,82 77,52 157,88 213,28 277,70" stroke="#00f5d4" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="77" cy="52" r="4" fill="#00f5d4"/>
+        <circle cx="157" cy="88" r="4" fill="#00f5d4"/>
+        <circle cx="213" cy="28" r="4" fill="#00f5d4"/>
+      </svg>
+
+      <footer class="copy">
+        <span class="dot"></span>
+        © 2025 Mente Financiera. Todos los derechos reservados.
+      </footer>
+    </aside>
+
+    <!-- Panel derecho -->
+    <section class="form-panel">
+      <div class="form-wrap">
+        <h1>Iniciar Sesión</h1>
+        <p class="subtitle">Ingresa tus credenciales para acceder a tu panel de control inteligente.</p>
+
+        <form (submit)="onSubmit($event)" novalidate>
+          <div class="field">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" name="email" placeholder="nombre@ejemplo.com" autocomplete="email">
+          </div>
+
+          <div class="field">
+            <label for="password">Contraseña</label>
+            <div class="password-box">
+              <input #pass type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password">
+              <button type="button" class="eye" (click)="pass.type = pass.type === 'password' ? 'text' : 'password'" aria-label="Mostrar contraseña">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="options">
+            <label class="remember">
+              <input type="checkbox" name="remember">
+              <span class="box"></span>
+              Recuérdame
+            </label>
+            <a href="#" class="link">¿Olvidaste tu contraseña?</a>
+          </div>
+
+          @if (error()) {
+            <p class="error" role="alert">{{ error() }}</p>
+          }
+
+          <button type="submit" class="btn">Ingresar a la Plataforma</button>
+        </form>
+
+        <p class="signup">¿No tienes cuenta? <a href="#" class="link">Regístrate gratis</a></p>
+      </div>
+    </section>
+
+  </main>
