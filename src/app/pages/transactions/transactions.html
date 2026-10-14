@@ -1,0 +1,262 @@
+<body>
+  <div class="dashboard">
+
+    <!-- ===================== SIDEBAR (igual; solo cambia el ítem activo) ===================== -->
+    <aside class="sidebar">
+      <div class="brand">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="40" height="40" rx="12" fill="url(#logo-gradient)"/>
+          <path d="M18.853 22.7722L18.47 23.6952M18.853 17.2274L18.47 16.3044M21.1497 22.7722L21.5317 23.6962M21.5327 16.3044L21.1497 17.2274M22.7737 18.8515L23.6967 18.4685M22.7737 21.1482L23.6967 21.5312M14.4032 14.4997C14.1608 14.0804 14.0232 13.6084 14.0028 13.1245C13.9797 12.5771 14.1069 12.0337 14.3708 11.5535C14.6913 10.9695 15.1971 10.5087 15.8084 10.2439C16.4197 9.97915 17.1018 9.92538 17.7471 10.0911C18.3923 10.2568 18.9641 10.6326 19.3721 11.1592C19.7802 11.6858 20.0014 12.3333 20.0008 12.9995C20.0007 12.5393 20.1066 12.0853 20.3101 11.6726C20.5136 11.2599 20.8094 10.8995 21.1744 10.6193C21.5395 10.3392 21.9641 10.1468 22.4155 10.057C22.8668 9.96724 23.3327 9.98249 23.7772 10.1016C24.2217 10.2207 24.6329 10.4405 24.9788 10.7439C25.3248 11.0473 25.5963 11.4262 25.7724 11.8514C25.9485 12.2765 26.0245 12.7365 25.9943 13.1957C25.9642 13.6549 25.8289 14.101 25.5988 14.4995M14.0028 13.1245C13.4149 13.2757 12.8692 13.5587 12.4069 13.9521C11.9447 14.3455 11.578 14.8389 11.3347 15.395C11.0914 15.9511 10.9778 16.5553 11.0026 17.1618C11.0274 17.7682 11.1899 18.3611 11.4778 18.8955M25.9993 13.1247C26.5871 13.2759 27.1328 13.559 27.5951 13.9523C28.0574 14.3457 28.424 14.8391 28.6674 15.3952C28.9107 15.9513 29.0242 16.5555 28.9994 17.162C28.9746 17.7685 28.8122 18.3613 28.5243 18.8957M27.5061 18.2937C28.3653 18.6426 29.0765 19.2793 29.5182 20.0947C29.9598 20.9101 30.1044 21.8537 29.9272 22.7639C29.7501 23.6742 29.2621 24.4946 28.5468 25.0849C27.8316 25.6751 26.9335 25.9985 26.0061 25.9997M12.0333 25.4831C11.9129 26.4008 12.1145 27.3319 12.6037 28.1176C13.0929 28.9034 13.8395 29.4951 14.7162 29.792C15.5929 30.0889 16.5454 30.0726 17.4113 29.7458C18.2773 29.4191 19.0032 28.8021 19.4653 28.0001C19.6453 27.6891 20.3573 27.6891 20.5373 28.0001C20.9993 28.802 21.7251 29.4188 22.5909 29.7455C23.4568 30.0722 24.4091 30.0886 25.2857 29.7919C26.1623 29.4951 26.9088 28.9036 27.3982 28.1181C27.8875 27.3326 28.0893 26.4017 27.9693 25.4841M12.5015 18.2907C11.6404 18.6385 10.9271 19.275 10.484 20.0911C10.0409 20.9073 9.89554 21.8522 10.0729 22.7637C10.2503 23.6753 10.7393 24.4968 11.4561 25.0872C12.1729 25.6776 13.0728 26.0003 14.0015 25.9997M17.2289 18.8515L16.3059 18.4685M17.2289 21.1482L16.3059 21.5312M23.0012 19.9997C23.0012 21.6566 21.6581 22.9997 20.0012 22.9997C18.3444 22.9997 17.0012 21.6566 17.0012 19.9997C17.0012 18.3429 18.3444 16.9997 20.0012 16.9997C21.6581 16.9997 23.0012 18.3429 23.0012 19.9997Z" stroke="#090D1A" stroke-width="2" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="0" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#00F5D4"/>
+              <stop offset="1" stop-color="#9E00FF"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="brand__text">
+          <p class="brand__name">Mente</p>
+          <p class="brand__sub">Financiera</p>
+        </div>
+      </div>
+
+      <nav class="menu" aria-label="Navegación principal">
+        <!-- Dashboard: ya NO es el activo (trazo gris) -->
+        <a class="menu__item" href="#">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M7.5 2.5H3.33333C2.8731 2.5 2.5 2.8731 2.5 3.33333V7.5C2.5 7.96024 2.8731 8.33333 3.33333 8.33333H7.5C7.96024 8.33333 8.33333 7.96024 8.33333 7.5V3.33333C8.33333 2.8731 7.96024 2.5 7.5 2.5Z" stroke="#8F9BB3" stroke-width="2" stroke-linecap="round"/>
+            <path d="M16.6667 2.5H12.5C12.0398 2.5 11.6667 2.8731 11.6667 3.33333V7.5C11.6667 7.96024 12.0398 8.33333 12.5 8.33333H16.6667C17.1269 8.33333 17.5 7.96024 17.5 7.5V3.33333C17.5 2.8731 17.1269 2.5 16.6667 2.5Z" stroke="#8F9BB3" stroke-width="2" stroke-linecap="round"/>
+            <path d="M16.6667 11.6667H12.5C12.0398 11.6667 11.6667 12.0398 11.6667 12.5V16.6667C11.6667 17.1269 12.0398 17.5 12.5 17.5H16.6667C17.1269 17.5 17.5 17.1269 17.5 16.6667V12.5C17.5 12.0398 17.1269 11.6667 16.6667 11.6667Z" stroke="#8F9BB3" stroke-width="2" stroke-linecap="round"/>
+            <path d="M7.5 11.6667H3.33333C2.8731 11.6667 2.5 12.0398 2.5 12.5V16.6667C2.5 17.1269 2.8731 17.5 3.33333 17.5H7.5C7.96024 17.5 8.33333 17.1269 8.33333 16.6667V12.5C8.33333 12.0398 7.96024 11.6667 7.5 11.6667Z" stroke="#8F9BB3" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>Dashboard</span>
+        </a>
+
+        <!-- Registro: ahora es el activo (trazo teal) -->
+        <a class="menu__item menu__item--active" href="#" aria-current="page">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M10.8332 13.3326H6.66698M11.6665 6.66599H6.66698M13.333 9.99928H6.66698M3.33398 2.49912C3.33398 2.27811 3.42177 2.06615 3.57804 1.90987C3.7343 1.75359 3.94624 1.6658 4.16723 1.6658C4.37356 1.66466 4.57592 1.72249 4.75051 1.83246L5.52793 2.33245C5.70211 2.44377 5.9045 2.50291 6.11121 2.50291C6.31791 2.50291 6.5203 2.44377 6.69448 2.33245L7.47274 1.83246C7.64692 1.72115 7.84931 1.662 8.05601 1.662C8.26272 1.662 8.46511 1.72115 8.63929 1.83246L9.41671 2.33245C9.59089 2.44377 9.79328 2.50291 9.99998 2.50291C10.2067 2.50291 10.4091 2.44377 10.5833 2.33245L11.3607 1.83246C11.5349 1.72115 11.7373 1.662 11.944 1.662C12.1507 1.662 12.3531 1.72115 12.5272 1.83246L13.3055 2.33245C13.4797 2.44377 13.6821 2.50291 13.8888 2.50291C14.0955 2.50291 14.2979 2.44377 14.472 2.33245L15.2495 1.83246C15.424 1.72249 15.6264 1.66466 15.8327 1.6658C16.0537 1.6658 16.2657 1.75359 16.4219 1.90987C16.5782 2.06615 16.666 2.27811 16.666 2.49912V17.4989C16.666 17.7199 16.5782 17.9319 16.4219 18.0881C16.2657 18.2444 16.0537 18.3322 15.8327 18.3322C15.6264 18.3333 15.424 18.2755 15.2495 18.1655L14.472 17.6656C14.2979 17.5542 14.0955 17.4951 13.8888 17.4951C13.6821 17.4951 13.4797 17.5542 13.3055 17.6656L12.5272 18.1655C12.3531 18.2769 12.1507 18.336 11.944 18.336C11.7373 18.336 11.5349 18.2769 11.3607 18.1655L10.5833 17.6656C10.4091 17.5542 10.2067 17.4951 9.99998 17.4951C9.79328 17.4951 9.59089 17.5542 9.41671 17.6656L8.63929 18.1655C8.46511 18.2769 8.26272 18.336 8.05601 18.336C7.84931 18.336 7.64692 18.2769 7.47274 18.1655L6.69448 17.6656C6.5203 17.5542 6.31791 17.4951 6.11121 17.4951C5.9045 17.4951 5.70211 17.5542 5.52793 17.6656L4.75051 18.1655C4.57592 18.2755 4.37356 18.3333 4.16723 18.3322C3.94624 18.3322 3.7343 18.2444 3.57804 18.0881C3.42177 17.9319 3.33398 17.7199 3.33398 17.4989V2.49912Z" stroke="#00F5D4" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>Registro</span>
+        </a>
+
+        <a class="menu__item" href="#">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12.5002 7.4998L7.49982 12.5002M7.49982 7.4998L12.5002 12.5002M18.334 10C18.334 14.6027 14.6028 18.334 10 18.334C5.39727 18.334 1.66602 14.6027 1.66602 10C1.66602 5.39726 5.39727 1.666 10 1.666C14.6028 1.666 18.334 5.39726 18.334 10Z" stroke="#8F9BB3" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>Categorías</span>
+        </a>
+
+        <a class="menu__item" href="#">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M5 18.3333V2.33325C4.9999 2.2186 5.02937 2.10585 5.08557 2.00591C5.14176 1.90597 5.22279 1.82221 5.32081 1.76273C5.41883 1.70325 5.53053 1.67005 5.64513 1.66635C5.75973 1.66264 5.87334 1.68856 5.975 1.74159L15.4583 6.48325C15.571 6.53784 15.6661 6.62308 15.7326 6.7292C15.7991 6.83531 15.8344 6.95802 15.8344 7.08325C15.8344 7.20849 15.7991 7.3312 15.7326 7.43731C15.6661 7.54343 15.571 7.62866 15.4583 7.68325L5 12.9166" stroke="#8F9BB3" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>Metas</span>
+        </a>
+
+        <a class="menu__item" href="#">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M2.5 2.5V15.8333C2.5 16.2754 2.67559 16.6993 2.98816 17.0118C3.30072 17.3244 3.72464 17.5 4.16667 17.5H17.5M5.83333 13.3333C6.25 11.6667 7.08333 7.5 9.16667 7.5C10.8333 7.5 10.8333 10 12.5 10C14.5833 10 16.25 5.83333 16.6667 4.16667" stroke="#8F9BB3" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>Análisis</span>
+        </a>
+
+        <a class="menu__item" href="#">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M2.5 5.83333V4.16667C2.5 3.72464 2.67559 3.30072 2.98816 2.98816C3.30072 2.67559 3.72464 2.5 4.16667 2.5H5.83333M14.1667 2.5H15.8333C16.2754 2.5 16.6993 2.67559 17.0118 2.98816C17.3244 3.30072 17.5 3.72464 17.5 4.16667V5.83333M17.5 14.1667V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H14.1667M5.83333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V14.1667M6.66667 5.83333V14.1667M10 5.83333V14.1667M14.1667 5.83333V14.1667" stroke="#8F9BB3" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>Escáner</span>
+        </a>
+
+        <a class="menu__item" href="#">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M10 7.49995V10.8332L11.6668 12.4999M4.16622 2.5L1.66602 4.99997M18.334 4.99997L15.8338 2.5M5.31631 15.5834L3.33282 17.5M14.7001 15.5581L16.6669 17.4998M16.6672 10.8332C16.6672 14.5151 13.6822 17.4998 10 17.4998C6.31782 17.4998 3.33282 14.5151 3.33282 10.8332C3.33282 7.15138 6.31782 4.16665 10 4.16665C13.6822 4.16665 16.6672 7.15138 16.6672 10.8332Z" stroke="#8F9BB3" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>Recordatorios</span>
+        </a>
+
+        <a class="menu__item" href="#">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M10.0001 7.49939V10.8327M10.0001 14.1661H10.0084M18.1088 14.9996L11.4421 3.33291C11.2967 3.07642 11.0859 2.86307 10.8312 2.71464C10.5765 2.5662 10.2869 2.488 9.9921 2.488C9.69727 2.488 9.40773 2.5662 9.15299 2.71464C8.89826 2.86307 8.68746 3.07642 8.5421 3.33291L1.87543 14.9996C1.7285 15.254 1.65145 15.5428 1.6521 15.8367C1.65275 16.1305 1.73108 16.419 1.87913 16.6728C2.02719 16.9266 2.23972 17.1367 2.49518 17.2819C2.75063 17.4271 3.03994 17.5022 3.33376 17.4996H16.6671C16.9595 17.4993 17.2467 17.4221 17.4998 17.2756C17.753 17.1292 17.9631 16.9188 18.1092 16.6655C18.2553 16.4122 18.3321 16.1249 18.3321 15.8325C18.332 15.5401 18.255 15.2528 18.1088 14.9996Z" stroke="#8F9BB3" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>Alertas</span>
+        </a>
+      </nav>
+
+      <div class="user-mini">
+        <span class="user-mini__avatar" role="img" aria-label="Carlos Ruiz"></span>
+        <div class="user-mini__details">
+          <p class="user-mini__name">Carlos Ruiz</p>
+          <p class="user-mini__tier">PRO MEMBER</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ===================== CONTENIDO ===================== -->
+    <main class="main">
+
+      <!-- Barra superior (igual; solo cambia el título) -->
+      <header class="topbar">
+        <h1 class="topbar__title">Registro de Actividad</h1>
+        <div class="topbar__actions">
+          <label class="search">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M14.0001 14.0001L11.1068 11.1068M12.6667 7.33333C12.6667 10.2789 10.2789 12.6667 7.33333 12.6667C4.38781 12.6667 2 10.2789 2 7.33333C2 4.38781 4.38781 2 7.33333 2C10.2789 2 12.6667 4.38781 12.6667 7.33333Z" stroke="#8F9BB3" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <input class="search__input" type="search" placeholder="Buscar transacciones..." aria-label="Buscar transacciones">
+          </label>
+
+          <button class="icon-btn icon-btn--mic" type="button" aria-label="Hablar con el agente">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M10 15.8338V18.334M4.16602 8.33318V9.99998C4.16602 11.5472 4.78067 13.0311 5.87475 14.1251C6.96884 15.2192 8.45274 15.8338 10 15.8338C11.5473 15.8338 13.0312 15.2192 14.1253 14.1251C15.2194 13.0311 15.834 11.5472 15.834 9.99998V8.33318M10 1.66599C11.3809 1.66599 12.5003 2.78536 12.5003 4.16618V9.99998C12.5003 11.3808 11.3809 12.5002 10 12.5002C8.61915 12.5002 7.49973 11.3808 7.49973 9.99998V4.16618C7.49973 2.78536 8.61915 1.66599 10 1.66599Z" stroke="#00F5D4" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+
+          <button class="icon-btn" type="button" aria-label="Notificaciones">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="0.5" y="0.5" width="39" height="39" rx="19.5" fill="#131A30"/>
+              <rect x="0.5" y="0.5" width="39" height="39" rx="19.5" stroke="#1F2947"/>
+              <path d="M18.5556 27.5007C18.7019 27.754 18.9123 27.9644 19.1657 28.1107C19.419 28.257 19.7064 28.334 19.999 28.334C20.2915 28.334 20.5789 28.257 20.8323 28.1107C21.0857 27.9644 21.2961 27.754 21.4424 27.5007M12.7177 22.7719C12.6089 22.8913 12.537 23.0396 12.5109 23.1991C12.4849 23.3585 12.5057 23.522 12.5708 23.6698C12.636 23.8176 12.7427 23.9433 12.8779 24.0316C13.0132 24.1199 13.1712 24.1669 13.3327 24.167H26.6664C26.8279 24.1671 26.9859 24.1202 27.1212 24.0321C27.2566 23.944 27.3634 23.8185 27.4288 23.6708C27.4941 23.5231 27.5151 23.3595 27.4892 23.2001C27.4634 23.0407 27.3917 22.8922 27.283 22.7728C26.1747 21.6302 24.9996 20.4159 24.9996 16.6664C24.9996 15.3402 24.4729 14.0683 23.5352 13.1306C22.5975 12.1928 21.3257 11.666 19.9995 11.666C18.6734 11.666 17.4016 12.1928 16.4639 13.1306C15.5262 14.0683 14.9994 15.3402 14.9994 16.6664C14.9994 20.4159 13.8236 21.6302 12.7177 22.7719Z" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="26" cy="14" r="4" fill="#FF5C5C"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Zona de la vista Registro (NUEVO) -->
+      <div class="content">
+
+        <!-- Selector de semana -->
+        <section class="card week" aria-label="Seleccionar día">
+          <button class="week__nav" type="button" aria-label="Semana anterior">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M10 12L6 8L10 4" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+
+          <ol class="week__days">
+            <li><button class="day" type="button"><span class="day__name">Lun</span><span class="day__num">15</span></button></li>
+            <li><button class="day" type="button"><span class="day__name">Mar</span><span class="day__num">16</span></button></li>
+            <li><button class="day" type="button"><span class="day__name">Mié</span><span class="day__num">17</span></button></li>
+            <li><button class="day day--active" type="button" aria-current="date"><span class="day__name">Jue</span><span class="day__num">18</span></button></li>
+            <li><button class="day" type="button"><span class="day__name">Vie</span><span class="day__num">19</span></button></li>
+            <li><button class="day" type="button"><span class="day__name">Sáb</span><span class="day__num">20</span></button></li>
+            <li><button class="day" type="button"><span class="day__name">Dom</span><span class="day__num">21</span></button></li>
+          </ol>
+
+          <button class="week__nav" type="button" aria-label="Semana siguiente">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M6 4L10 8L6 12" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </section>
+
+        <!-- Transacciones de hoy -->
+        <section class="card tx-card" aria-labelledby="tx-title">
+          <div class="tx-card__header">
+            <h2 class="card__title" id="tx-title">Transacciones de Hoy</h2>
+            <button class="btn-primary" type="button">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M3.33333 8H12.6667M8 3.33333V12.6667" stroke="#090D1A" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              Añadir Gasto/Ingreso
+            </button>
+          </div>
+
+          <ul class="tx-list">
+
+            <li class="tx">
+              <span class="tx__icon tx__icon--expense">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect x="2" y="3" width="14" height="10" rx="2" stroke="#FF5C5C" stroke-width="1.8"/>
+                  <path d="M7.5 6.5L10.5 8L7.5 9.5V6.5Z" stroke="#FF5C5C" stroke-width="1.5" stroke-linejoin="round"/>
+                  <path d="M6 15.5H12" stroke="#FF5C5C" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <div class="tx__body">
+                <p class="tx__name">Suscripción Netflix</p>
+                <p class="tx__meta"><span class="tx__tag">Suscripciones</span><time>09:15 AM</time></p>
+              </div>
+              <p class="tx__amount tx__amount--expense">-$14.99</p>
+            </li>
+
+            <li class="tx">
+              <span class="tx__icon tx__icon--expense">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M4 2V16M2.5 2V5.5C2.5 6.6 3.2 7.5 4 7.5C4.8 7.5 5.5 6.6 5.5 5.5V2M13 16V2C11.3 3 10.5 5 10.5 7.5C10.5 8.6 11.3 9.5 13 9.5" stroke="#FF5C5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <div class="tx__body">
+                <p class="tx__name">Almuerzo Oficina</p>
+                <p class="tx__meta"><span class="tx__tag">Alimentación</span><time>11:30 AM</time></p>
+              </div>
+              <p class="tx__amount tx__amount--expense">-$12.50</p>
+            </li>
+
+            <li class="tx">
+              <span class="tx__icon tx__icon--income">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect x="2" y="3.5" width="14" height="11" rx="2" stroke="#00F5D4" stroke-width="1.8"/>
+                  <path d="M2 7.5H16M5 11.5H8" stroke="#00F5D4" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <div class="tx__body">
+                <p class="tx__name">Transferencia Recibida</p>
+                <p class="tx__meta"><span class="tx__tag">Ingresos</span><time>02:00 PM</time></p>
+              </div>
+              <p class="tx__amount tx__amount--income">+$1,200.00</p>
+            </li>
+
+            <li class="tx">
+              <span class="tx__icon tx__icon--expense">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M2.5 11V8.5L4.2 5.2C4.5 4.6 5.1 4.2 5.8 4.2H12.2C12.9 4.2 13.5 4.6 13.8 5.2L15.5 8.5V11C15.5 11.6 15 12 14.5 12H3.5C3 12 2.5 11.6 2.5 11Z" stroke="#FF5C5C" stroke-width="1.8" stroke-linejoin="round"/>
+                  <circle cx="5.5" cy="12.5" r="1.3" stroke="#FF5C5C" stroke-width="1.5"/>
+                  <circle cx="12.5" cy="12.5" r="1.3" stroke="#FF5C5C" stroke-width="1.5"/>
+                </svg>
+              </span>
+              <div class="tx__body">
+                <p class="tx__name">Gasolina</p>
+                <p class="tx__meta"><span class="tx__tag">Transporte</span><time>05:45 PM</time></p>
+              </div>
+              <p class="tx__amount tx__amount--expense">-$35.00</p>
+            </li>
+
+            <li class="tx">
+              <span class="tx__icon tx__icon--expense">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M1.5 2H3.5L5 11H14L15.5 5H4.2" stroke="#FF5C5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="6" cy="14.5" r="1.2" stroke="#FF5C5C" stroke-width="1.5"/>
+                  <circle cx="13" cy="14.5" r="1.2" stroke="#FF5C5C" stroke-width="1.5"/>
+                </svg>
+              </span>
+              <div class="tx__body">
+                <p class="tx__name">Supermercado Semanal</p>
+                <p class="tx__meta"><span class="tx__tag">Alimentación</span><time>08:12 PM</time></p>
+              </div>
+              <p class="tx__amount tx__amount--expense">-$84.30</p>
+            </li>
+
+          </ul>
+        </section>
+
+        <!-- Resumen del día -->
+        <section class="summary" aria-label="Resumen del día">
+          <div class="summary__item summary__item--start">
+            <p class="summary__label">Ingresos del Día</p>
+            <p class="summary__value summary__value--income">+$1,200.00</p>
+          </div>
+          <div class="summary__item summary__item--center">
+            <p class="summary__label">Gastos del Día</p>
+            <p class="summary__value summary__value--expense">-$146.79</p>
+          </div>
+          <div class="summary__item summary__item--end">
+            <p class="summary__label">Balance Neto</p>
+            <p class="summary__value">+$1,053.21</p>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+</body>
