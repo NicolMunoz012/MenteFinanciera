@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "Carlos Ruiz",
+    "email": "carlos@mentefinanciera.com",
+    "password": "Carlos123*",
+    "tier": "PRO MEMBER"
+  },
+  {
+    "id": 2,
+    "name": "Laura Gómez",
+    "email": "laura@mentefinanciera.com",
+    "password": "Laura123*",
+    "tier": "FREE MEMBER"
+  }
+]
