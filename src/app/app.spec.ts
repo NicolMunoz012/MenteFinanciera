@@ -22,7 +22,7 @@ describe('App', () => {
   it('should render the login page on the default route', async () => {
     const harness = await RouterTestingHarness.create('/');
     const compiled = harness.routeNativeElement as HTMLElement;
-    expect(compiled.querySelector('main.login h1')?.textContent).toContain('Iniciar Sesión');
+    expect(compiled.querySelector('main.login h1')?.textContent).toContain('Iniciar sesión');
   });
 
   it('should show a validation error when the form is empty', async () => {

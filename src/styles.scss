@@ -1,17 +1,134 @@
-/* You can add global styles to this file, and also import other style files */
+/* ==========================================================================
+   Mente Financiera — sistema visual "Ledger Noir"
+   Tokens, base, estructura de página y piezas compartidas.
+
+   La identidad se apoya en tres ideas:
+   1. Tinta profunda y papel cálido (no el azul/blanco genérico de plantilla).
+   2. Tipografía IBM Plex: Sans para la interfaz, Mono para las cifras y
+      Serif para los momentos editoriales (bienvenida y 404).
+   3. Superficies planas con hairlines; el color solo señala estado o dato.
+   ========================================================================== */
+
 :root {
-  --bg: #090d1a;
-  --sidebar: #0e1326;
-  --surface: #131a30;
-  --border: #1f2947;
-  --text: #ffffff;
-  --muted: #8f9bb3;
-  --dim: #4f5d75;
-  --teal: #00f5d4;
-  --teal-soft: rgba(0, 245, 212, 0.12);
-  --red: #ff5c5c;
-  --purple: #9e00ff;
-  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color-scheme: dark;
+
+  /* ---------- Paleta oscura (tema por defecto) ---------- */
+  --bg: #070b14;
+  --bg-deep: #050810;
+  --sidebar: #0a0f1b;
+  --surface: #101725;
+  --surface-2: #0c121f;
+  --border: rgba(148, 170, 205, 0.14);
+  --border-strong: rgba(148, 170, 205, 0.26);
+  --text: #eef3fb;
+  --muted: #9aa8c0;
+  /* Texto terciario (metadatos, placeholders). ≥4.5:1 sobre --bg y --surface. */
+  --dim: #7f8da6;
+  --teal: #3ee6c4;
+  --teal-strong: #21cdae;
+  --teal-soft: rgba(62, 230, 196, 0.12);
+  --teal-faint: rgba(62, 230, 196, 0.08);
+  --red: #ff7a7a;
+  --red-soft: rgba(255, 122, 122, 0.12);
+  --amber: #f0b45e;
+  --amber-soft: rgba(240, 180, 94, 0.13);
+  --amber-ring: rgba(240, 180, 94, 0.3);
+  --purple: #b39cf9;
+  --violet: #b39cf9;
+  --violet-soft: rgba(179, 156, 249, 0.13);
+  --violet-ring: rgba(179, 156, 249, 0.3);
+  --ink: #04110f; /* texto oscuro sobre fondo teal */
+  --focus-ring: 0 0 0 3px rgba(62, 230, 196, 0.32);
+
+  /* Tokens de superficie que cambian entre temas */
+  --hover: rgba(255, 255, 255, 0.045);
+  --hover-strong: rgba(255, 255, 255, 0.075);
+  --card-sheen: rgba(255, 255, 255, 0.022);
+  --topbar-bg: rgba(7, 11, 20, 0.82);
+  --sidebar-glass: rgba(10, 15, 27, 0.92);
+  --chart-grid: rgba(148, 170, 205, 0.16);
+  --scroll-hover: #43516e;
+  --selection: rgba(62, 230, 196, 0.26);
+  --shadow-lg: 0 28px 56px rgba(0, 0, 0, 0.42);
+  --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.38);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.28);
+  --nav-icon: #7f8da6;
+  --teal-ring: rgba(62, 230, 196, 0.28);
+  --teal-glow: rgba(62, 230, 196, 0.55);
+  --red-ring: rgba(255, 122, 122, 0.38);
+  --auth-glow-teal: rgba(62, 230, 196, 0.09);
+  --auth-glow-purple: rgba(179, 156, 249, 0.1);
+  --overlay: rgba(3, 6, 12, 0.68);
+
+  /* Ancho del área de contenido (compartido por .content y la topbar) */
+  --content-max: 1600px;
+  --content-pad: clamp(16px, 2.5vw, 40px);
+  /* Alto de la barra de navegación inferior en celular */
+  --bottom-nav: 64px;
+
+  /* Radios y ritmo: un solo sistema para toda la app */
+  --r-sm: 8px;
+  --r-md: 11px;
+  --r-lg: 16px;
+  --r-xl: 22px;
+
+  /* Tipografía */
+  --font: "IBM Plex Sans", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+  --font-display: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+}
+
+/* ---------- Paleta clara (papel cálido) ----------
+   Se activa con <html data-theme="light">. Los tonos teal/rojo se oscurecen
+   para conservar el contraste sobre el papel y --ink pasa a blanco porque
+   ahora se usa sobre botones teal oscuros. */
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #f6f5ef;
+  --bg-deep: #efece2;
+  --sidebar: #efece2;
+  --surface: #fffefb;
+  --surface-2: #faf8f1;
+  --border: rgba(32, 45, 39, 0.14);
+  --border-strong: rgba(32, 45, 39, 0.26);
+  --text: #16201c;
+  --muted: #56645e;
+  --dim: #606d68;
+  --teal: #08796a;
+  --teal-strong: #056456;
+  --teal-soft: rgba(8, 121, 106, 0.11);
+  --teal-faint: rgba(8, 121, 106, 0.07);
+  --red: #b3342e;
+  --red-soft: rgba(179, 52, 46, 0.09);
+  --amber: #8a5a12;
+  --amber-soft: rgba(138, 90, 18, 0.1);
+  --amber-ring: rgba(138, 90, 18, 0.26);
+  --purple: #6d4fc4;
+  --violet: #6d4fc4;
+  --violet-soft: rgba(109, 79, 196, 0.1);
+  --violet-ring: rgba(109, 79, 196, 0.26);
+  --ink: #ffffff; /* texto claro sobre fondo teal oscuro */
+  --focus-ring: 0 0 0 3px rgba(8, 121, 106, 0.28);
+
+  --hover: rgba(22, 32, 28, 0.045);
+  --hover-strong: rgba(22, 32, 28, 0.075);
+  --card-sheen: transparent;
+  --topbar-bg: rgba(246, 245, 239, 0.86);
+  --sidebar-glass: rgba(239, 236, 226, 0.92);
+  --chart-grid: rgba(32, 45, 39, 0.14);
+  --scroll-hover: #b3ac9c;
+  --selection: rgba(8, 121, 106, 0.16);
+  --shadow-lg: 0 24px 48px rgba(32, 45, 39, 0.14);
+  --shadow-md: 0 10px 26px rgba(32, 45, 39, 0.1);
+  --shadow-sm: 0 1px 2px rgba(32, 45, 39, 0.06);
+  --nav-icon: #56645e;
+  --teal-ring: rgba(8, 121, 106, 0.26);
+  --teal-glow: rgba(8, 121, 106, 0.32);
+  --red-ring: rgba(179, 52, 46, 0.3);
+  --auth-glow-teal: rgba(8, 121, 106, 0.08);
+  --auth-glow-purple: rgba(109, 79, 196, 0.07);
+  --overlay: rgba(22, 32, 28, 0.34);
 }
 
 *,
@@ -22,19 +139,28 @@
 
 html,
 body {
-  height: 100%;
+  min-height: 100%;
   margin: 0;
   padding: 0;
   background: var(--bg);
-  overflow-x: hidden;
+}
+
+html {
+  scrollbar-gutter: stable;
 }
 
 body {
+  /* "clip" corta cualquier desborde lateral sin crear un contenedor de scroll (el sticky sigue funcionando) */
+  overflow-x: clip;
   font-family: var(--font);
+  font-size: 15px;
   color: var(--text);
-  line-height: 1.21;
+  line-height: 1.5;
+  caret-color: var(--teal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scrollbar-color: var(--border-strong) var(--bg);
 }
 
 p,
@@ -47,6 +173,7 @@ h3 {
 a {
   color: inherit;
   text-decoration: none;
+  text-underline-offset: 3px;
 }
 
 button {
@@ -63,3 +190,329 @@ svg {
   flex-shrink: 0;
 }
 
+/* ---------- Superficies del navegador con la paleta de la app ---------- */
+
+::selection {
+  background: var(--selection);
+  color: var(--text);
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border: 2px solid var(--bg);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scroll-hover);
+}
+
+:where(a, button, select, input, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
+/* Texto sólo para lectores de pantalla: completa el nombre accesible de un
+   control sin alterar la composición visual. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Estructura de página ----------
+   Compartida por TODAS las páginas (sidebar + contenido). Vive aquí (global) y no en
+   el .scss de cada página porque Angular aísla los estilos de cada componente. */
+.dashboard {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Contenido centrado con ancho máximo amplio: aprovecha pantallas grandes sin que
+   las líneas se estiren demasiado en monitores ultra anchos. */
+.content {
+  display: flex;
+  flex-direction: column;
+  /* "auto" (no 0) para que la altura real del contenido estire .main y .dashboard;
+     si no, el sidebar sticky se queda sin recorrido y se va con el scroll. */
+  flex: 1 0 auto;
+  gap: clamp(16px, 2vw, 24px);
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: clamp(20px, 3vw, 32px) var(--content-pad);
+}
+
+/* En celular el menú es una barra inferior fija: se reserva su espacio */
+@media (max-width: 640px) {
+  .main {
+    padding-bottom: calc(var(--bottom-nav) + env(safe-area-inset-bottom));
+  }
+}
+
+/* ---------- Tarjetas ---------- */
+
+.card {
+  position: relative;
+  min-width: 0;
+  background:
+    linear-gradient(180deg, var(--card-sheen), transparent 72px),
+    var(--surface);
+  border-radius: var(--r-lg);
+  box-shadow:
+    inset 0 0 0 1px var(--border),
+    var(--shadow-sm);
+}
+
+.card__title {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.012em;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+/* Etiqueta pequeña de dato: mayúsculas, tracking amplio, sin gritar. */
+.data-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+/* Cifra principal: mono + tabular para que los dígitos queden alineados. */
+.data-value {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.empty-state {
+  padding: 36px 20px;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+  text-align: center;
+  text-wrap: pretty;
+}
+
+/* ---------- Formularios (Registro, Categorías, Metas, Escáner y Recordatorios) ---------- */
+
+.form-card {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  width: 100%;
+  padding: clamp(20px, 2.4vw, 28px);
+}
+
+.form-card__fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: 18px;
+  align-items: start;
+}
+
+.form-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.field__input {
+  width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  background: var(--bg);
+  border: 0;
+  border-radius: var(--r-md);
+  box-shadow: inset 0 0 0 1px var(--border);
+  outline: 0;
+  font-family: var(--font);
+  font-size: 14px;
+  color: var(--text);
+  color-scheme: inherit;
+  transition:
+    box-shadow 0.16s ease,
+    background 0.16s ease;
+}
+
+.field__input::placeholder {
+  color: var(--dim);
+  opacity: 1;
+}
+
+.field__input:hover {
+  box-shadow: inset 0 0 0 1px var(--border-strong);
+}
+
+.field__input:focus,
+.field__input:focus-visible {
+  outline: 0;
+  background: var(--surface);
+  box-shadow:
+    inset 0 0 0 1px var(--teal),
+    0 0 0 4px var(--teal-soft);
+}
+
+.field__input.ng-touched.ng-invalid {
+  box-shadow:
+    inset 0 0 0 1px var(--red),
+    0 0 0 4px var(--red-soft);
+}
+
+/* Select con flecha propia, igual en todos los navegadores */
+select.field__input {
+  appearance: none;
+  padding-right: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237f8da6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  cursor: pointer;
+}
+
+:root[data-theme="light"] select.field__input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2356645e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+}
+
+select.field__input option {
+  background: var(--surface);
+  color: var(--text);
+}
+
+/* ---------- Botones ---------- */
+
+/* Acción principal, reutilizada en varias páginas (Registro, Metas, Recordatorios...) */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 16px;
+  background: var(--teal);
+  border-radius: var(--r-md);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  font-family: var(--font);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  color: var(--ink);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.16s ease,
+    box-shadow 0.2s ease,
+    transform 0.1s ease;
+}
+
+.btn-primary:hover {
+  background: var(--teal-strong);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 6px 18px rgba(62, 230, 196, 0.2);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: var(--r-md);
+  box-shadow: inset 0 0 0 1px var(--border);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+  transition:
+    color 0.16s ease,
+    background 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--hover);
+  box-shadow: inset 0 0 0 1px var(--border-strong);
+  color: var(--text);
+}
+
+/* Acción destructiva discreta: no compite con el dato, se vuelve roja al apuntarla */
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 10px;
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+  transition:
+    color 0.16s ease,
+    background 0.16s ease;
+}
+
+.btn-danger:hover,
+.btn-danger:focus-visible {
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+/* ---------- Accesibilidad: sin animaciones si el usuario lo pide ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
