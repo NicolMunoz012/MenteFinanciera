@@ -1,0 +1,241 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.brand-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 4vh, 46px);
+  height: 100%;
+  padding: clamp(24px, 5vh, 40px) clamp(32px, 4vw, 56px);
+  overflow: hidden;
+  background:
+    radial-gradient(520px circle at 0% 0%, var(--auth-glow-teal), transparent 60%),
+    radial-gradient(560px circle at 100% 100%, var(--auth-glow-purple), transparent 60%),
+    var(--sidebar);
+  box-shadow: inset -1px 0 0 var(--border);
+}
+
+/* Retícula de libro mayor: una textura de papel contable muy tenue que da
+   identidad sin competir con el contenido. */
+.brand-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 47px, var(--border) 47px 48px),
+    repeating-linear-gradient(90deg, transparent 0 71px, var(--border) 71px 72px);
+  opacity: 0.35;
+  pointer-events: none;
+  mask-image: linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent);
+}
+
+.brand-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Logo (mismas medidas que .brand del navbar) ---------- */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  white-space: nowrap;
+}
+
+.brand__name {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+
+.brand__sub {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+
+/* ---------- Mensaje principal ---------- */
+.pitch {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-width: 470px;
+}
+
+/* Regla corta de marca: teal → violeta, el mismo degradado del logo. */
+.pitch::before {
+  content: '';
+  width: 44px;
+  height: 2px;
+  margin-bottom: clamp(14px, 2.4vh, 22px);
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--teal), var(--violet));
+}
+
+.pitch__title {
+  font-family: var(--font-display);
+  font-size: clamp(29px, 4.2vh, 39px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+.accent {
+  color: var(--teal);
+}
+
+.pitch__text {
+  margin-top: clamp(10px, 1.8vh, 16px);
+  max-width: 44ch;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.5vh, 13px);
+  margin: clamp(18px, 3.5vh, 30px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.feature__icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--r-sm);
+  background: var(--teal-soft);
+  box-shadow: inset 0 0 0 1px var(--teal-ring);
+  color: var(--teal);
+}
+
+/* ---------- Tarjeta de muestra (estilo .card del dashboard) ---------- */
+.preview {
+  margin-top: clamp(20px, 4vh, 40px);
+  padding: 18px 18px 10px;
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  box-shadow:
+    inset 0 0 0 1px var(--border),
+    var(--shadow-lg);
+}
+
+.preview__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.preview__label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.preview__value {
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.preview__badge {
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--teal-soft);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--teal);
+}
+
+.preview__chart {
+  width: 100%;
+  height: auto;
+  margin-top: 12px;
+}
+
+.preview__grid {
+  stroke: var(--chart-grid);
+}
+
+/* ---------- Pie ---------- */
+.copy {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  letter-spacing: 0.01em;
+  color: var(--muted);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 0 3px var(--teal-soft);
+}
+
+/* ---------- Pantallas bajitas: se ocultan adornos para no generar scroll ---------- */
+@media (max-height: 820px) {
+  .preview {
+    display: none;
+  }
+}
+
+@media (max-height: 600px) {
+  .features {
+    display: none;
+  }
+}
+
+/* ---------- Pantallas angostas: sólo queda el logo como encabezado ---------- */
+@media (max-width: 900px) {
+  .brand-panel {
+    height: auto;
+    padding: 24px 20px;
+    box-shadow: inset 0 -1px 0 var(--border);
+  }
+
+  .pitch,
+  .copy {
+    display: none;
+  }
+}

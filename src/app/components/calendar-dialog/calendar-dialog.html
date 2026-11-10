@@ -1,0 +1,47 @@
+<div
+  class="calendar-overlay"
+  [class.calendar-overlay--open]="open"
+  [attr.aria-hidden]="!open"
+  (click)="onBackdropClick($event)">
+
+  <section
+    class="calendar-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="calendar-title"
+    [attr.aria-hidden]="!open">
+
+    <header class="calendar-dialog__header">
+      <div class="calendar-dialog__heading">
+        <span class="calendar-dialog__badge" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="5" width="18" height="16" rx="2"/>
+            <path d="M16 3v4M8 3v4M3 11h18"/>
+          </svg>
+        </span>
+        <div>
+          <h2 class="calendar-dialog__title" id="calendar-title">Elige una fecha</h2>
+          <p class="calendar-dialog__subtitle">Los colores resumen la actividad de cada día.</p>
+        </div>
+      </div>
+
+      <button
+        class="calendar-dialog__close"
+        type="button"
+        aria-label="Cerrar el calendario"
+        (click)="close()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M18 6 6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </header>
+
+    <div class="calendar-dialog__body">
+      <app-month-calendar
+        [selectedDate]="selectedDate"
+        [transactions]="transactions"
+        (dateSelected)="choose($event)">
+      </app-month-calendar>
+    </div>
+  </section>
+</div>
