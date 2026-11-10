@@ -1,0 +1,94 @@
+.rank-card {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  width: 100%;
+  padding: clamp(20px, 2.4vw, 28px);
+}
+
+.rank-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rank-item {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: 100%;
+}
+
+.rank-item__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+.rank-item__name {
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: -0.004em;
+  color: var(--text);
+}
+
+.rank-item__value {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--muted);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.rank-item__bar {
+  width: 100%;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--hover-strong);
+  overflow: hidden;
+}
+
+.rank-item__fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.insight-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: clamp(20px, 2.4vw, 28px);
+}
+
+/* Cada insight es una fila con hairline, no una tarjeta dentro de la tarjeta. */
+.insight-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: calc(100% + 24px);
+  margin: 0 -12px;
+  padding: 13px 12px;
+  border-radius: var(--r-sm);
+}
+
+.insight-item + .insight-item {
+  box-shadow: inset 0 1px 0 var(--border);
+}
+
+.insight-item__text {
+  font-size: 13.5px;
+  line-height: 1.55;
+  font-weight: 400;
+  color: var(--text);
+  text-wrap: pretty;
+}
