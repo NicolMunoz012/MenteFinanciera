@@ -1,0 +1,139 @@
+:host {
+  display: contents;
+}
+
+.donut-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 clamp(352px, 34%, 480px);
+  gap: 22px;
+  min-width: 0;
+  padding: clamp(20px, 2.4vw, 28px);
+}
+
+/* Apilada bajo el flujo de caja en pantallas medianas y pequeñas */
+@media (max-width: 1200px) {
+  .donut-card {
+    flex-basis: auto;
+  }
+}
+
+
+.chart-panel {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+}
+
+.donut {
+  position: relative;
+  flex-shrink: 0;
+  width: 150px;
+  height: 150px;
+}
+
+.donut__svg {
+  position: absolute;
+  inset: 0;
+  width: 150px;
+  height: 150px;
+}
+
+.donut__track {
+  stroke: var(--border);
+}
+
+.donut__center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  white-space: nowrap;
+}
+
+.donut__total {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.donut__caption {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.donut-legend {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 0;
+  gap: 11px;
+  min-width: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.donut-legend__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.donut-legend__name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.donut-legend__dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+.donut-legend__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.donut-legend__pct {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 480px) {
+  .chart-panel {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .donut {
+    align-self: center;
+  }
+}
