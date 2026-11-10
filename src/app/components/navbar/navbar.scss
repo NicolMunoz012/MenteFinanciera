@@ -1,0 +1,429 @@
+/* El elemento <app-navbar> no genera caja: el <aside> participa directo en el flex de la página */
+:host {
+  display: contents;
+}
+
+/* Curva con "freno" suave al final: el menú se siente más fluido que con un ease normal */
+$ease: cubic-bezier(0.22, 1, 0.36, 1);
+$duration: 0.4s;
+
+/* ---------- Sidebar ---------- */
+
+/* Fijo a la altura de la ventana y sin scroll propio: los espacios se ajustan
+   con la altura de la pantalla para que todo el menú quepa siempre.
+   Ancho compacto = 20 + 16 + 20 (ícono) + 16 + 20 = 92px → los íconos quedan centrados. */
+.sidebar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 3vh, 36px);
+  flex-shrink: 0;
+  width: 240px;
+  height: 100vh;
+  height: 100dvh;
+  padding: clamp(16px, 3vh, 24px) 16px;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.018), transparent 160px),
+    var(--sidebar);
+  box-shadow: inset -1px 0 0 var(--border);
+  transition: width $duration $ease;
+}
+
+
+/* ---------- Textos que se desvanecen al contraer ---------- */
+
+.brand__text,
+.brand__chevron,
+.menu__label,
+.user-mini__details {
+  /* Al expandir, los textos aparecen cuando ya hay espacio */
+  transition:
+    opacity 0.25s ease 0.12s,
+    transform 0.35s $ease 0.12s;
+}
+
+
+/* ---------- Logo (también es el botón para contraer/expandir) ---------- */
+
+.brand {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  /* El margen negativo compensa el padding; el logo queda centrado sobre los íconos */
+  margin: -4px -4px 0;
+  width: calc(100% + 8px);
+  padding: 7px 8px 7px 14px;
+  border-radius: var(--r-md);
+  text-align: left;
+  transition: background 0.16s ease;
+}
+
+.brand:hover {
+  background: var(--hover);
+}
+
+.brand:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 0;
+}
+
+.brand__logo {
+  display: block;
+  flex-shrink: 0;
+  border-radius: 11px;
+  transition:
+    transform 0.6s $ease,
+    box-shadow 0.3s ease;
+}
+
+
+.brand:hover .brand__logo {
+  box-shadow: 0 0 0 3px var(--teal-soft), 0 6px 18px rgba(62, 230, 196, 0.18);
+}
+
+.brand__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  white-space: nowrap;
+}
+
+.brand__name {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+
+.brand__sub {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+
+.brand__chevron {
+  margin-left: auto;
+  color: var(--dim);
+}
+
+.brand:hover .brand__chevron,
+.brand:focus-visible .brand__chevron {
+  color: var(--teal);
+}
+
+/* ---------- Menú ---------- */
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 0;
+  gap: clamp(2px, 0.7vh, 6px);
+  width: 100%;
+  min-height: 1px;
+}
+
+.menu__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: clamp(8px, 1.35vh, 11px) 12px;
+  border-radius: var(--r-md);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.003em;
+  color: var(--muted);
+  white-space: nowrap;
+  transition:
+    background 0.16s ease,
+    color 0.16s ease;
+}
+
+.menu__item svg {
+  transition: transform 0.2s $ease;
+}
+
+.menu__item svg path {
+  stroke: var(--nav-icon);
+  transition: stroke 0.16s ease;
+}
+
+.menu__item:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.menu__item:hover svg path {
+  stroke: var(--text);
+}
+
+.menu__item:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 0;
+}
+
+/* Selección: tinte + una guía vertical corta. Sin caja completa para que el
+   menú no parezca una pila de botones. */
+.menu__item--active,
+.menu__item--active:hover {
+  background: var(--teal-soft);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.menu__item--active::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 3px;
+  height: 18px;
+  border-radius: 0 3px 3px 0;
+  background: var(--teal);
+  transform: translateY(-50%);
+}
+
+.menu__item--active svg path,
+.menu__item--active:hover svg path {
+  stroke: var(--teal);
+}
+
+
+/* ---------- Usuario ---------- */
+
+.user-mini {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  /* 6px a los lados: en modo compacto la tarjeta mide justo 6 + 36 + 6 = 48px */
+  padding: 10px 8px;
+  background: var(--surface-2);
+  border-radius: var(--r-md);
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+
+/* Foto: guarda la imagen exportada de Figma como "avatar.jpg" junto a este archivo.
+   Si no existe, se muestra el degradado de la marca. */
+.user-mini__avatar {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--teal), var(--violet));
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.user-mini__details {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 0;
+  gap: 1px;
+  min-width: 1px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.user-mini__name {
+  font-size: 12.5px;
+  color: var(--text);
+}
+
+.user-mini__tier {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--teal);
+}
+
+/* ---------- Modo compacto (sólo íconos), al contraer el menú ---------- */
+.sidebar--collapsed {
+  width: 92px;
+  /* Visible para que los tooltips de cada ícono puedan salir hacia la derecha */
+  overflow: visible;
+
+  .brand__text,
+  .brand__chevron,
+  .menu__label,
+  .user-mini__details {
+    opacity: 0;
+    transform: translateX(-10px);
+    pointer-events: none;
+    /* Al contraer, se van de inmediato */
+    transition:
+      opacity 0.12s ease,
+      transform 0.2s ease;
+  }
+
+  .menu__item {
+    justify-content: center;
+    padding-inline: 0;
+  }
+
+  /* Sin textos, el logo y el avatar quedan centrados en la barra compacta */
+  .brand__text,
+  .brand__chevron {
+    width: 0;
+    overflow: hidden;
+  }
+
+  .user-mini {
+    justify-content: center;
+    padding-inline: 0;
+  }
+
+  .user-mini__details {
+    flex: 0 0 0;
+    width: 0;
+    overflow: hidden;
+  }
+
+  /* El logo da una vuelta al contraer y otra al expandir */
+  .brand__logo {
+    transform: rotate(-360deg);
+  }
+
+  /* El ícono reacciona al pasar el mouse */
+  .menu__item:hover svg {
+    transform: scale(1.1);
+  }
+
+  .menu__item--active::before {
+    display: none;
+  }
+
+  .menu__item--active {
+    box-shadow: inset 0 0 0 1px var(--teal-ring);
+  }
+
+  /* Tooltips con el nombre de cada ícono */
+  [data-label]:hover::after,
+  [data-label]:focus-visible::after {
+    content: attr(data-label);
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 14px);
+    z-index: 40;
+    padding: 6px 10px;
+    background: var(--surface);
+    border-radius: var(--r-sm);
+    box-shadow:
+      inset 0 0 0 1px var(--border),
+      var(--shadow-md);
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--text);
+    white-space: nowrap;
+    pointer-events: none;
+    transform: translateY(-50%);
+    animation: tooltip-in 0.18s $ease;
+  }
+}
+
+@keyframes tooltip-in {
+  from {
+    opacity: 0;
+    transform: translate(-6px, -50%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+}
+
+/* ---------- Celular: barra de navegación inferior fija ---------- */
+@media (max-width: 640px) {
+  .sidebar,
+  .sidebar--collapsed {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 30;
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    height: calc(var(--bottom-nav) + env(safe-area-inset-bottom));
+    padding: 0 6px env(safe-area-inset-bottom);
+    overflow: visible;
+    background: var(--sidebar-glass);
+    backdrop-filter: blur(12px);
+    box-shadow: inset 0 1px 0 var(--border);
+    transition: none;
+  }
+
+  .brand,
+  .user-mini {
+    display: none;
+  }
+
+  .menu {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2px;
+    height: 100%;
+  }
+
+  .menu__item,
+  .sidebar--collapsed .menu__item {
+    flex: 1 1 0;
+    justify-content: center;
+    max-width: 56px;
+    height: 44px;
+    padding: 0;
+  }
+
+  .menu__item--active::before {
+    top: auto;
+    bottom: 0;
+    left: 50%;
+    width: 18px;
+    height: 2px;
+    border-radius: 2px;
+    transform: translateX(-50%);
+  }
+
+  /* El texto sigue disponible para lectores de pantalla, pero no ocupa espacio */
+  .menu__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* Sin tooltips flotantes en pantallas táctiles */
+  .sidebar [data-label]:hover::after,
+  .sidebar [data-label]:focus-visible::after {
+    display: none;
+  }
+}
+
+
+/* ---------- Accesibilidad: sin animaciones si el usuario lo pide ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .sidebar *,
+  .sidebar *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
