@@ -1,0 +1,426 @@
+:host {
+  display: contents;
+}
+
+/* ---------- Fondo oscuro ---------- */
+.voice-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(12px, 3vw, 32px);
+  background: var(--overlay);
+  backdrop-filter: blur(3px);
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease;
+}
+
+.voice-overlay--open {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ---------- Diálogo ---------- */
+.voice-dialog {
+  display: flex;
+  flex-direction: column;
+  width: min(640px, 100%);
+  max-height: 100%;
+  overflow: hidden;
+  background: var(--surface);
+  border-radius: var(--r-xl);
+  box-shadow:
+    inset 0 0 0 1px var(--border),
+    var(--shadow-lg);
+  transform: translateY(12px) scale(0.98);
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.voice-overlay--open .voice-dialog {
+  transform: translateY(0) scale(1);
+}
+
+.voice-dialog__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
+  box-shadow: inset 0 -1px 0 var(--border);
+}
+
+.voice-dialog__heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+/* El violeta queda reservado para la voz: distingue el modo sin gritar. */
+.voice-dialog__badge {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--r-md);
+  background: var(--violet-soft);
+  box-shadow: inset 0 0 0 1px var(--violet-ring);
+  color: var(--violet);
+}
+
+.voice-dialog__title {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.018em;
+  color: var(--text);
+}
+
+.voice-dialog__subtitle {
+  margin-top: 2px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.voice-dialog__close {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--r-sm);
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.voice-dialog__close:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.voice-dialog__body {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 18px 22px 16px;
+  overflow-y: auto;
+}
+
+/* ---------- Micrófono ---------- */
+.voice-mic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 18px;
+  background:
+    radial-gradient(260px circle at 50% 0%, var(--teal-faint), transparent 70%),
+    var(--surface-2);
+  border-radius: var(--r-lg);
+  box-shadow: inset 0 0 0 1px var(--border);
+  text-align: center;
+}
+
+.voice-mic__button {
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  border-radius: 999px;
+  background: var(--teal);
+  color: var(--ink);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    0 10px 26px var(--teal-ring);
+  cursor: pointer;
+  transition:
+    transform 0.12s ease,
+    background 0.16s ease,
+    box-shadow 0.2s ease;
+}
+
+.voice-mic__button:hover {
+  background: var(--teal-strong);
+  transform: scale(1.04);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 12px 30px var(--teal-ring);
+}
+
+.voice-mic__button:active {
+  transform: scale(0.97);
+}
+
+.voice-mic--listening .voice-mic__button {
+  background: var(--red);
+  color: #ffffff;
+  box-shadow: 0 0 0 0 var(--red-ring);
+  animation: voice-pulse 1.6s ease-out infinite;
+}
+
+@keyframes voice-pulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--red-ring);
+  }
+  70% {
+    box-shadow: 0 0 0 16px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+.voice-mic__status {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+.voice-mic__example {
+  max-width: 46ch;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--dim);
+  text-wrap: pretty;
+}
+
+/* ---------- Transcripción ---------- */
+.voice-transcript {
+  padding: 13px 15px;
+  background: var(--teal-soft);
+  border-radius: var(--r-md);
+  box-shadow: inset 0 0 0 1px var(--teal-ring);
+}
+
+.voice-transcript__label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+
+.voice-transcript__text {
+  margin-top: 5px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.voice-transcript__interim {
+  color: var(--dim);
+  font-style: italic;
+}
+
+/* ---------- Alternativa por texto ---------- */
+.voice-text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.voice-text__label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.voice-text__row {
+  display: flex;
+  gap: 10px;
+}
+
+.voice-text__input {
+  flex: 1 0 0;
+  min-width: 0;
+}
+
+.voice-text__btn {
+  flex-shrink: 0;
+  min-height: 44px;
+}
+
+/* ---------- Mensajes ---------- */
+.voice-note {
+  padding: 11px 13px;
+  background: var(--teal-soft);
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.voice-success {
+  padding: 11px 13px;
+  background: var(--teal-soft);
+  border-radius: var(--r-sm);
+  box-shadow: inset 0 0 0 1px var(--teal-ring);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--teal);
+}
+
+.voice-error {
+  padding: 11px 13px;
+  background: var(--red-soft);
+  border-radius: var(--r-sm);
+  box-shadow: inset 0 0 0 1px var(--red-ring);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--red);
+}
+
+/* ---------- Formulario de confirmación ---------- */
+.voice-form {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  padding-top: 14px;
+  box-shadow: inset 0 1px 0 var(--border);
+}
+
+.voice-form__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+}
+
+.voice-form__title {
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: var(--text);
+}
+
+/* ---------- Tarjeta de cada movimiento ---------- */
+.voice-draft {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 13px;
+  background: var(--surface-2);
+  border-radius: var(--r-md);
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+
+.voice-draft__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.voice-draft__index {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.voice-draft__remove {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--r-sm);
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.voice-draft__remove:hover {
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.voice-draft__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+
+.voice-form__error {
+  padding: 11px 13px;
+  background: var(--red-soft);
+  border-radius: var(--r-sm);
+  box-shadow: inset 0 0 0 1px var(--red-ring);
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--red);
+}
+
+.voice-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* ---------- Pantallas pequeñas ---------- */
+@media (max-width: 560px) {
+  .voice-dialog__header {
+    padding: 16px;
+  }
+
+  .voice-dialog__body {
+    padding: 16px;
+  }
+
+  .voice-dialog__badge {
+    width: 36px;
+    height: 36px;
+  }
+
+  .voice-dialog__title {
+    font-size: 16.5px;
+  }
+
+  .voice-draft__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .voice-text__row {
+    flex-direction: column;
+  }
+
+  .voice-text__btn {
+    width: 100%;
+  }
+}
+
+/* Respeta la preferencia del sistema de reducir animaciones. */
+@media (prefers-reduced-motion: reduce) {
+  .voice-overlay,
+  .voice-dialog {
+    transition: none;
+  }
+
+  .voice-mic--listening .voice-mic__button {
+    animation: none;
+  }
+}

@@ -1,0 +1,19 @@
+<article class="card progress-card">
+  <div class="progress-card__header">
+    <span class="progress-card__badge" [class.progress-card__badge--over]="over">{{ initials }}</span>
+    <div class="progress-card__titles">
+      <p class="progress-card__title">{{ title }}</p>
+      <p class="progress-card__note" *ngIf="note">{{ note }}</p>
+    </div>
+    <button class="btn-danger progress-card__remove" type="button" (click)="removed.emit()">Eliminar</button>
+  </div>
+
+  <div class="progress-card__amounts">
+    <span class="progress-card__current" [class.progress-card__current--over]="over">{{ current | cop }}</span>
+    <span class="progress-card__target">de {{ target | cop }}</span>
+  </div>
+
+  <div class="progress-card__bar">
+    <div class="progress-card__fill" [class.progress-card__fill--over]="over" [style.width.%]="percent"></div>
+  </div>
+</article>
