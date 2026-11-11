@@ -1,0 +1,64 @@
+<div class="dashboard">
+
+  <app-navbar></app-navbar>
+
+  <main class="main">
+
+    <app-topbar title="Metas de Ahorro"></app-topbar>
+
+    <div class="content">
+
+      <section class="goals-forms">
+        <form class="card form-card" [formGroup]="goalForm" (ngSubmit)="submitGoal()">
+          <h2 class="card__title">Nueva meta</h2>
+          <div class="form-card__fields">
+            <app-form-field label="Nombre" [control]="goalForm.controls.name">
+              <input class="field__input" type="text" formControlName="name" placeholder="Ej. Moto nueva">
+            </app-form-field>
+            <app-form-field label="Monto objetivo" [control]="goalForm.controls.target">
+              <input class="field__input" type="number" formControlName="target" min="0">
+            </app-form-field>
+            <app-form-field label="Fecha límite" [control]="goalForm.controls.dueDate">
+              <input class="field__input" type="date" formControlName="dueDate">
+            </app-form-field>
+          </div>
+          <div class="form-card__actions">
+            <button class="btn-primary" type="submit">Crear meta</button>
+          </div>
+        </form>
+
+        <form class="card form-card" [formGroup]="contributionForm" (ngSubmit)="submitContribution()">
+          <h2 class="card__title">Abonar a una meta</h2>
+          <div class="form-card__fields">
+            <app-form-field label="Meta" [control]="contributionForm.controls.goalId">
+              <select class="field__input" formControlName="goalId">
+                <option [ngValue]="null" disabled>Elige una meta</option>
+                <option *ngFor="let goal of goals()" [ngValue]="goal.id">{{ goal.name }}</option>
+              </select>
+            </app-form-field>
+            <app-form-field label="Monto a abonar" [control]="contributionForm.controls.amount">
+              <input class="field__input" type="number" formControlName="amount" min="0">
+            </app-form-field>
+          </div>
+          <div class="form-card__actions">
+            <button class="btn-primary" type="submit">Abonar</button>
+          </div>
+        </form>
+      </section>
+
+      <p class="empty-state" *ngIf="!goals().length">Aún no tienes metas. Crea la primera arriba.</p>
+
+      <section class="goals-grid" aria-label="Metas de ahorro" *ngIf="goals().length">
+        <app-progress-card
+          *ngFor="let goal of goals()"
+          [title]="goal.name"
+          [note]="'Meta: ' + (goal.dueDate | spanishDate)"
+          [current]="goal.saved"
+          [target]="goal.target"
+          (removed)="remove(goal.id)">
+        </app-progress-card>
+      </section>
+
+    </div>
+  </main>
+</div>

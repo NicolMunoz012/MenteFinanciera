@@ -1,0 +1,14 @@
+.goals-forms {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
+  gap: clamp(16px, 2vw, 22px);
+  width: 100%;
+  align-items: start;
+}
+
+.goals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+  gap: clamp(16px, 2vw, 22px);
+  width: 100%;
+}
