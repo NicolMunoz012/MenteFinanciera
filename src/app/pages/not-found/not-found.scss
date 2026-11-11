@@ -1,0 +1,86 @@
+.not-found {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: clamp(20px, 5vw, 48px);
+  overflow: hidden;
+  background:
+    radial-gradient(560px circle at 15% 8%, var(--auth-glow-teal), transparent 55%),
+    radial-gradient(620px circle at 85% 92%, var(--auth-glow-purple), transparent 58%),
+    var(--bg);
+}
+
+/* Retícula de libro mayor, la misma textura de las pantallas de acceso. */
+.not-found::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 47px, var(--border) 47px 48px),
+    repeating-linear-gradient(90deg, transparent 0 71px, var(--border) 71px 72px);
+  opacity: 0.3;
+  mask-image: radial-gradient(circle at 50% 50%, #000, transparent 72%);
+  pointer-events: none;
+}
+
+.not-found__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 460px;
+  padding: clamp(32px, 5vw, 52px) clamp(24px, 4vw, 48px);
+  background: var(--surface);
+  text-align: center;
+}
+
+.not-found__brand {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.not-found__brand-accent {
+  color: var(--teal);
+}
+
+.not-found__code {
+  margin: 6px 0 2px;
+  font-family: var(--font-mono);
+  font-size: clamp(64px, 15vw, 104px);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.075em;
+  color: var(--teal);
+  font-variant-numeric: tabular-nums;
+}
+
+.not-found__title {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+.not-found__text {
+  max-width: 34ch;
+  margin-top: 2px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.not-found__card .btn-primary {
+  margin-top: 18px;
+}

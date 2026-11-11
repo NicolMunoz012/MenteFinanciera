@@ -1,0 +1,81 @@
+.alerts-page-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  padding: clamp(20px, 2.4vw, 28px);
+}
+
+.alerts-page-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  padding-bottom: 4px;
+}
+
+/* Filas planas con hairline: misma gramática que el resumen del dashboard. */
+.alert-page-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 -12px;
+  padding: 0;
+  list-style: none;
+}
+
+.alert-page-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  width: calc(100% + 24px);
+  padding: 14px 12px;
+  border-radius: var(--r-md);
+  transition: background 0.16s ease;
+}
+
+.alert-page-item + .alert-page-item {
+  box-shadow: inset 0 1px 0 var(--border);
+}
+
+.alert-page-item:hover {
+  background: var(--hover);
+}
+
+.alert-page-item > svg {
+  color: var(--red);
+}
+
+.alert-page-item__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 0;
+  gap: 3px;
+  min-width: min(240px, 100%);
+  font-weight: 400;
+}
+
+.alert-page-item__text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+.alert-page-item__time {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--dim);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .alert-page-item .btn-secondary {
+    width: 100%;
+  }
+}
