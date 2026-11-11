@@ -1,0 +1,156 @@
+.search-card {
+  gap: 16px;
+}
+
+.search-card__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.search-card__row .field__input {
+  flex: 1 1 240px;
+  width: auto;
+}
+
+.search-card__hint {
+  max-width: 70ch;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--dim);
+  text-wrap: pretty;
+}
+
+.results-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  padding: clamp(20px, 2.4vw, 28px);
+}
+
+.results-card__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 16px;
+  width: 100%;
+}
+
+.results-card__count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--dim);
+  white-space: nowrap;
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 -12px;
+  padding: 0;
+  list-style: none;
+}
+
+.result {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  width: calc(100% + 24px);
+  padding: 14px 12px;
+  border-radius: var(--r-md);
+  transition: background 0.16s ease;
+}
+
+.result + .result {
+  box-shadow: inset 0 1px 0 var(--border);
+}
+
+.result:hover {
+  background: var(--hover);
+}
+
+.result__icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--r-sm);
+}
+
+.result__icon--expense {
+  background: var(--red-soft);
+  box-shadow: inset 0 0 0 1px var(--red-ring);
+  color: var(--red);
+}
+
+.result__icon--income {
+  background: var(--teal-soft);
+  box-shadow: inset 0 0 0 1px var(--teal-ring);
+  color: var(--teal);
+}
+
+.result__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 0;
+  gap: 4px;
+  min-width: min(200px, 100%);
+}
+
+.result__name {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.006em;
+  color: var(--text);
+}
+
+.result__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--dim);
+}
+
+.result__tag {
+  padding: 2px 8px;
+  background: var(--hover-strong);
+  border-radius: 5px;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.result__amount {
+  flex-shrink: 0;
+  margin-left: auto;
+  padding-right: 2px;
+  font-family: var(--font-mono);
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.result__amount--expense {
+  color: var(--red);
+}
+
+.result__amount--income {
+  color: var(--teal);
+}
