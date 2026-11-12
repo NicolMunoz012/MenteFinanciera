@@ -44,7 +44,7 @@
   flex-shrink: 0;
   width: 60px;
   height: 60px;
-  filter: drop-shadow(0 8px 18px rgba(62, 230, 196, 0.16));
+  filter: drop-shadow(0 8px 18px var(--brand-soft));
   transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -133,7 +133,14 @@
   color: var(--ink);
 }
 
+/* Apilada (≤1200px, igual que .bottom-split) la tarjeta es un ítem de columna:
+   con flex-basis 0 su altura se colapsa y el círculo del micrófono queda
+   recortado por el overflow. En columna debe medir su contenido. */
 @media (max-width: 1200px) {
+  .voice-card {
+    flex-basis: auto;
+  }
+
   .voice-card__cta {
     display: none;
   }

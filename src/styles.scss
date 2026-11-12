@@ -24,10 +24,21 @@
   --muted: #9aa8c0;
   /* Texto terciario (metadatos, placeholders). ≥4.5:1 sobre --bg y --surface. */
   --dim: #7f8da6;
-  --teal: #3ee6c4;
-  --teal-strong: #21cdae;
-  --teal-soft: rgba(62, 230, 196, 0.12);
-  --teal-faint: rgba(62, 230, 196, 0.08);
+  /* Verde de marca: en oscuro se aclara para conservar el contraste. */
+  --brand: #57c878;
+  --brand-strong: #3eaa60;
+  --brand-soft: rgba(87, 200, 120, 0.13);
+  --brand-faint: rgba(87, 200, 120, 0.08);
+  --brand-ring: rgba(87, 200, 120, 0.30);
+  --brand-glow: rgba(87, 200, 120, 0.45);
+  /* El logo va en el mismo verde de marca que el resto del sistema. */
+  --logo-mark: var(--brand);
+  --logo-glow: var(--brand-glow);
+  /* Alias heredados: los componentes siguen usando --teal, ahora en verde. */
+  --teal: var(--brand);
+  --teal-strong: var(--brand-strong);
+  --teal-soft: var(--brand-soft);
+  --teal-faint: var(--brand-faint);
   --red: #ff7a7a;
   --red-soft: rgba(255, 122, 122, 0.12);
   --amber: #f0b45e;
@@ -37,8 +48,8 @@
   --violet: #b39cf9;
   --violet-soft: rgba(179, 156, 249, 0.13);
   --violet-ring: rgba(179, 156, 249, 0.3);
-  --ink: #04110f; /* texto oscuro sobre fondo teal */
-  --focus-ring: 0 0 0 3px rgba(62, 230, 196, 0.32);
+  --ink: #04110f; /* texto oscuro sobre fondo verde */
+  --focus-ring: 0 0 0 3px rgba(87, 200, 120, 0.32);
 
   /* Tokens de superficie que cambian entre temas */
   --hover: rgba(255, 255, 255, 0.045);
@@ -48,16 +59,16 @@
   --sidebar-glass: rgba(10, 15, 27, 0.92);
   --chart-grid: rgba(148, 170, 205, 0.16);
   --scroll-hover: #43516e;
-  --selection: rgba(62, 230, 196, 0.26);
+  --selection: rgba(87, 200, 120, 0.26);
   --shadow-lg: 0 28px 56px rgba(0, 0, 0, 0.42);
   --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.38);
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.28);
   --nav-icon: #7f8da6;
-  --teal-ring: rgba(62, 230, 196, 0.28);
-  --teal-glow: rgba(62, 230, 196, 0.55);
+  --teal-ring: var(--brand-ring);
+  --teal-glow: var(--brand-glow);
   --red-ring: rgba(255, 122, 122, 0.38);
-  --auth-glow-teal: rgba(62, 230, 196, 0.09);
-  --auth-glow-purple: rgba(179, 156, 249, 0.1);
+  --auth-glow-brand: rgba(87, 200, 120, 0.09);
+  --auth-glow-alt: rgba(201, 163, 110, 0.08);
   --overlay: rgba(3, 6, 12, 0.68);
 
   /* Ancho del área de contenido (compartido por .content y la topbar) */
@@ -78,27 +89,40 @@
   --font-display: "IBM Plex Serif", Georgia, "Times New Roman", serif;
 }
 
-/* ---------- Paleta clara (papel cálido) ----------
-   Se activa con <html data-theme="light">. Los tonos teal/rojo se oscurecen
-   para conservar el contraste sobre el papel y --ink pasa a blanco porque
-   ahora se usa sobre botones teal oscuros. */
+/* ---------- Paleta clara (blanco neutro con grises) ----------
+   Se activa con <html data-theme="light">. El fondo es un blanco grisáceo
+   (no crema) y las superficies van de gris claro a blanco puro para separar
+   planos sin recurrir a tonos cálidos. El verde de marca y el rojo se oscurecen
+   para conservar el contraste y --ink pasa a blanco porque ahora se usa sobre
+   botones verdes oscuros. */
 :root[data-theme="light"] {
   color-scheme: light;
 
-  --bg: #f6f5ef;
-  --bg-deep: #efece2;
-  --sidebar: #efece2;
-  --surface: #fffefb;
-  --surface-2: #faf8f1;
-  --border: rgba(32, 45, 39, 0.14);
-  --border-strong: rgba(32, 45, 39, 0.26);
-  --text: #16201c;
-  --muted: #56645e;
-  --dim: #606d68;
-  --teal: #08796a;
-  --teal-strong: #056456;
-  --teal-soft: rgba(8, 121, 106, 0.11);
-  --teal-faint: rgba(8, 121, 106, 0.07);
+  --bg: #f7f8f9;
+  --bg-deep: #eef0f2;
+  --sidebar: #f1f3f4;
+  --surface: #ffffff;
+  --surface-2: #f6f7f8;
+  --border: rgba(16, 24, 32, 0.12);
+  --border-strong: rgba(16, 24, 32, 0.24);
+  --text: #121a17;
+  --muted: #55605b;
+  --dim: #68726d;
+  /* Verde de marca tomado del logo original. */
+  --brand: #1e5a2f;
+  --brand-strong: #164525;
+  --brand-soft: rgba(30, 90, 47, 0.10);
+  --brand-faint: rgba(30, 90, 47, 0.06);
+  --brand-ring: rgba(30, 90, 47, 0.25);
+  --brand-glow: rgba(30, 90, 47, 0.30);
+  /* En claro el logo va en el mismo verde de marca. */
+  --logo-mark: var(--brand);
+  --logo-glow: rgba(30, 90, 47, 0.18);
+  /* Alias heredados: los componentes siguen usando --teal, ahora en verde. */
+  --teal: var(--brand);
+  --teal-strong: var(--brand-strong);
+  --teal-soft: var(--brand-soft);
+  --teal-faint: var(--brand-faint);
   --red: #b3342e;
   --red-soft: rgba(179, 52, 46, 0.09);
   --amber: #8a5a12;
@@ -108,27 +132,27 @@
   --violet: #6d4fc4;
   --violet-soft: rgba(109, 79, 196, 0.1);
   --violet-ring: rgba(109, 79, 196, 0.26);
-  --ink: #ffffff; /* texto claro sobre fondo teal oscuro */
-  --focus-ring: 0 0 0 3px rgba(8, 121, 106, 0.28);
+  --ink: #ffffff; /* texto claro sobre fondo verde oscuro */
+  --focus-ring: 0 0 0 3px rgba(30, 90, 47, 0.28);
 
-  --hover: rgba(22, 32, 28, 0.045);
-  --hover-strong: rgba(22, 32, 28, 0.075);
+  --hover: rgba(16, 24, 32, 0.045);
+  --hover-strong: rgba(16, 24, 32, 0.075);
   --card-sheen: transparent;
-  --topbar-bg: rgba(246, 245, 239, 0.86);
-  --sidebar-glass: rgba(239, 236, 226, 0.92);
-  --chart-grid: rgba(32, 45, 39, 0.14);
-  --scroll-hover: #b3ac9c;
-  --selection: rgba(8, 121, 106, 0.16);
-  --shadow-lg: 0 24px 48px rgba(32, 45, 39, 0.14);
-  --shadow-md: 0 10px 26px rgba(32, 45, 39, 0.1);
-  --shadow-sm: 0 1px 2px rgba(32, 45, 39, 0.06);
-  --nav-icon: #56645e;
-  --teal-ring: rgba(8, 121, 106, 0.26);
-  --teal-glow: rgba(8, 121, 106, 0.32);
+  --topbar-bg: rgba(247, 248, 249, 0.86);
+  --sidebar-glass: rgba(241, 243, 244, 0.92);
+  --chart-grid: rgba(16, 24, 32, 0.12);
+  --scroll-hover: #b7bdba;
+  --selection: rgba(30, 90, 47, 0.16);
+  --shadow-lg: 0 24px 48px rgba(16, 24, 32, 0.14);
+  --shadow-md: 0 10px 26px rgba(16, 24, 32, 0.1);
+  --shadow-sm: 0 1px 2px rgba(16, 24, 32, 0.06);
+  --nav-icon: #5b6560;
+  --teal-ring: var(--brand-ring);
+  --teal-glow: var(--brand-glow);
   --red-ring: rgba(179, 52, 46, 0.3);
-  --auth-glow-teal: rgba(8, 121, 106, 0.08);
-  --auth-glow-purple: rgba(109, 79, 196, 0.07);
-  --overlay: rgba(22, 32, 28, 0.34);
+  --auth-glow-brand: rgba(30, 90, 47, 0.07);
+  --auth-glow-alt: rgba(30, 90, 47, 0.05);
+  --overlay: rgba(16, 24, 32, 0.34);
 }
 
 *,
@@ -444,7 +468,7 @@ select.field__input option {
   background: var(--teal-strong);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    0 6px 18px rgba(62, 230, 196, 0.2);
+    0 6px 18px var(--brand-ring);
 }
 
 .btn-primary:active {

@@ -12,8 +12,8 @@
   padding: clamp(24px, 5vh, 40px) clamp(32px, 4vw, 56px);
   overflow: hidden;
   background:
-    radial-gradient(520px circle at 0% 0%, var(--auth-glow-teal), transparent 60%),
-    radial-gradient(560px circle at 100% 100%, var(--auth-glow-purple), transparent 60%),
+    radial-gradient(520px circle at 0% 0%, var(--auth-glow-brand), transparent 60%),
+    radial-gradient(560px circle at 100% 100%, var(--auth-glow-alt), transparent 60%),
     var(--sidebar);
   box-shadow: inset -1px 0 0 var(--border);
 }
@@ -51,11 +51,15 @@
   white-space: nowrap;
 }
 
+.brand__logo {
+  color: var(--logo-mark);
+}
+
 .brand__name {
   font-size: 17px;
   font-weight: 600;
   letter-spacing: -0.015em;
-  color: var(--text);
+  color: var(--logo-mark);
 }
 
 .brand__sub {
@@ -63,7 +67,7 @@
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--teal);
+  color: var(--logo-mark);
 }
 
 /* ---------- Mensaje principal ---------- */
@@ -76,14 +80,14 @@
   max-width: 470px;
 }
 
-/* Regla corta de marca: teal → violeta, el mismo degradado del logo. */
+/* Regla corta de marca: mismo color del logo en cada tema. */
 .pitch::before {
   content: '';
   width: 44px;
   height: 2px;
   margin-bottom: clamp(14px, 2.4vh, 22px);
   border-radius: 2px;
-  background: linear-gradient(90deg, var(--teal), var(--violet));
+  background: var(--logo-mark);
 }
 
 .pitch__title {
