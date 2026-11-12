@@ -31,9 +31,9 @@
   --brand-faint: rgba(87, 200, 120, 0.08);
   --brand-ring: rgba(87, 200, 120, 0.30);
   --brand-glow: rgba(87, 200, 120, 0.45);
-  /* El logo usa dorado sobre fondo oscuro, como la versión de marca. */
-  --logo-mark: #c9a36e;
-  --logo-glow: rgba(201, 163, 110, 0.20);
+  /* El logo va en el mismo verde de marca que el resto del sistema. */
+  --logo-mark: var(--brand);
+  --logo-glow: var(--brand-glow);
   /* Alias heredados: los componentes siguen usando --teal, ahora en verde. */
   --teal: var(--brand);
   --teal-strong: var(--brand-strong);
@@ -116,7 +116,7 @@
   --brand-ring: rgba(30, 90, 47, 0.25);
   --brand-glow: rgba(30, 90, 47, 0.30);
   /* En claro el logo va en el mismo verde de marca. */
-  --logo-mark: #1e5a2f;
+  --logo-mark: var(--brand);
   --logo-glow: rgba(30, 90, 47, 0.18);
   /* Alias heredados: los componentes siguen usando --teal, ahora en verde. */
   --teal: var(--brand);
