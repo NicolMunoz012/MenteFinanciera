@@ -8,8 +8,8 @@
   padding: clamp(20px, 5vw, 48px);
   overflow: hidden;
   background:
-    radial-gradient(560px circle at 15% 8%, var(--auth-glow-teal), transparent 55%),
-    radial-gradient(620px circle at 85% 92%, var(--auth-glow-purple), transparent 58%),
+    radial-gradient(560px circle at 15% 8%, var(--auth-glow-brand), transparent 55%),
+    radial-gradient(620px circle at 85% 92%, var(--auth-glow-alt), transparent 58%),
     var(--bg);
 }
 

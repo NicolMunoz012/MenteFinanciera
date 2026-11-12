@@ -2,7 +2,7 @@ import { ChartItem } from '../models/chart.model';
 import { Transaction } from '../models/transaction.model';
 import { sumByType } from './transaction-stats';
 
-export const CHART_COLORS = ['#3EE6C4', '#FF7A7A', '#B39CF9', '#F0B45E', '#6FA8FF', '#93A3BC'];
+export const CHART_COLORS = ['#2F8F55', '#FF7A7A', '#B39CF9', '#F0B45E', '#6FA8FF', '#93A3BC'];
 
 export function buildExpenseShares(monthTransactions: Transaction[]): ChartItem[] {
   const total = sumByType(monthTransactions, 'expense');

@@ -75,15 +75,16 @@ $duration: 0.4s;
 .brand__logo {
   display: block;
   flex-shrink: 0;
-  border-radius: 11px;
+  color: var(--logo-mark);
   transition:
     transform 0.6s $ease,
-    box-shadow 0.3s ease;
+    filter 0.3s ease;
 }
 
 
+/* El símbolo es un SVG sin caja: el resplandor va con drop-shadow para seguir su forma. */
 .brand:hover .brand__logo {
-  box-shadow: 0 0 0 3px var(--teal-soft), 0 6px 18px rgba(62, 230, 196, 0.18);
+  filter: drop-shadow(0 0 10px var(--logo-glow));
 }
 
 .brand__text {
@@ -97,7 +98,7 @@ $duration: 0.4s;
   font-size: 17px;
   font-weight: 600;
   letter-spacing: -0.015em;
-  color: var(--text);
+  color: var(--logo-mark);
 }
 
 .brand__sub {
@@ -105,7 +106,7 @@ $duration: 0.4s;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--teal);
+  color: var(--logo-mark);
 }
 
 .brand__chevron {
@@ -221,12 +222,11 @@ $duration: 0.4s;
   height: 34px;
   border-radius: 10px;
   flex-shrink: 0;
-  background: linear-gradient(135deg, var(--teal), var(--violet));
+  background: linear-gradient(135deg, var(--brand), var(--brand-strong));
   font-size: 11.5px;
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: #ffffff;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+  color: var(--ink);
 }
 
 .user-mini__details {
@@ -270,20 +270,56 @@ $duration: 0.4s;
       transform 0.2s ease;
   }
 
+  /* Sin espacio para el texto, cada ícono queda centrado en una caja de 44px.
+     El gap del ítem se anula porque la etiqueta oculta, aunque no se vea,
+     seguiría ocupando su ancho y desplazaría el ícono. */
   .menu__item {
     justify-content: center;
-    padding-inline: 0;
+    gap: 0;
+    /* Misma altura fluida que en modo expandido para que el menú siga
+       cabiendo en pantallas bajas. */
+    height: clamp(36px, 5.4vh, 42px);
+    padding: 0;
+  }
+
+  /* Caja compacta sólo en escritorio: en celular el menú es una fila y los
+     ítems deben seguir repartiéndose el ancho. */
+  @media (min-width: 641px) {
+    .menu__item {
+      width: 44px;
+      margin-inline: auto;
+    }
+  }
+
+  .menu__label {
+    width: 0;
+    overflow: hidden;
   }
 
   /* Sin textos, el logo y el avatar quedan centrados en la barra compacta */
+  .brand {
+    justify-content: center;
+    gap: 0;
+    width: 100%;
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+
   .brand__text,
   .brand__chevron {
     width: 0;
     overflow: hidden;
   }
 
+  /* El chevron expandido usa margin-left:auto; en compacto eso empuja el
+     contenido a la izquierda e impide centrar el logo. */
+  .brand__chevron {
+    margin-left: 0;
+  }
+
   .user-mini {
     justify-content: center;
+    gap: 0;
     padding-inline: 0;
   }
 
