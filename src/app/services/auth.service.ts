@@ -1,90 +1,134 @@
-import { Injectable, signal } from '@angular/core';
-import DEMO_USERS from '../data/users.json';
-import { NewUser, SessionUser, User } from '../models/user.model';
+﻿import { inject, Injectable, signal } from '@angular/core';
+import { InsforgeClient } from '../core/insforge';
+import { NewUser, SessionUser } from '../models/user.model';
 import { loadFromStorage, saveToStorage } from '../utils/storage';
 
-const STORAGE_KEYS = {
-  /** Usuarios creados desde la pantalla de registro (se suman a los de users.json). */
-  users: 'mf.users',
-  session: 'mf.session',
-} as const;
+const SESSION_KEY = 'mf.session';
+
+/** Forma mínima del usuario que devuelve InsForge. */
+interface InsforgeUser {
+  id: string;
+  email: string;
+  profile: { name?: string } | null;
+}
 
 /**
- * Autenticación de demostración en el navegador: valida contra los usuarios de
- * `data/users.json` y los registrados localmente. No es segura; reemplazar por
- * un backend real cuando exista.
+ * Convierte el usuario de InsForge (UUID, email, perfil) al modelo de la app.
+ * Si la cuenta no tiene nombre en el perfil, se usa la parte del correo.
+ */
+export function toSessionUser(user: InsforgeUser): SessionUser {
+  return {
+    id: user.id,
+    name: user.profile?.name?.trim() || user.email.split('@')[0],
+    email: user.email,
+    tier: 'FREE MEMBER',
+  };
+}
+
+/**
+ * Autenticación con InsForge.
+ *
+ * El SDK guarda y refresca el token de sesión automáticamente. Aquí solo se
+ * mantiene una copia de los datos básicos del usuario en una señal para que
+ * las pantallas (y los guards) puedan leerla.
  */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly registeredUsers = signal(loadFromStorage<User[]>(STORAGE_KEYS.users, []));
-  private readonly currentUserState = signal<SessionUser | null>(this.restoreSession());
+  private readonly insforge = inject(InsforgeClient);
+
+  private readonly currentUserState = signal<SessionUser | null>(
+    loadFromStorage<SessionUser | null>(SESSION_KEY, null),
+  );
 
   readonly currentUser = this.currentUserState.asReadonly();
 
-  /** Devuelve true si el correo y la contraseña corresponden a un usuario. */
-  login(email: string, password: string, remember = false): boolean {
-    const user = this.findByEmail(email);
-    if (!user || user.password !== password) {
+  /**
+   * Promesa que termina cuando la sesión ya fue validada (incluye el regreso
+   * de Google). Los guards la esperan antes de decidir si dejan pasar.
+   */
+  readonly ready: Promise<void>;
+
+  constructor() {
+    // Al recargar la página se valida la sesión que el SDK dejó guardada.
+    this.ready = this.refreshSession();
+  }
+
+  /** Devuelve true si el correo y la contraseña son válidos. */
+  async login(email: string, password: string): Promise<boolean> {
+    const { data, error } = await this.insforge.client.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    });
+
+    if (error || !data?.user) {
       return false;
     }
-    this.startSession(user, remember);
+
+    this.setSession(toSessionUser(data.user));
     return true;
   }
 
-  /** Crea la cuenta e inicia sesión. Devuelve false si el correo ya está registrado. */
-  register(data: NewUser): boolean {
-    if (this.findByEmail(data.email)) {
+  /** Crea la cuenta en InsForge e inicia sesión. False si algo falla. */
+  async register(data: NewUser): Promise<boolean> {
+    const email = data.email.trim();
+    const { data: created, error } = await this.insforge.client.auth.signUp({
+      email,
+      password: data.password,
+      name: data.name.trim(),
+    });
+
+    if (error) {
       return false;
     }
-    const all = this.allUsers();
-    const user: User = {
-      id: Math.max(0, ...all.map((u) => u.id)) + 1,
-      name: data.name.trim(),
-      email: data.email.trim().toLowerCase(),
-      password: data.password,
-      tier: 'FREE MEMBER',
-    };
-    const updated = [...this.registeredUsers(), user];
-    this.registeredUsers.set(updated);
-    saveToStorage(STORAGE_KEYS.users, updated);
-    this.startSession(user, true);
-    return true;
+
+    if (created?.user) {
+      this.setSession(toSessionUser(created.user));
+      return true;
+    }
+
+    // Si el proyecto exige verificar el correo, aún no hay sesión.
+    return this.login(email, data.password);
   }
 
   logout(): void {
-    this.currentUserState.set(null);
-    localStorage.removeItem(STORAGE_KEYS.session);
-    sessionStorage.removeItem(STORAGE_KEYS.session);
+    // Se limpia la copia local de inmediato para que la interfaz reaccione;
+    // el cierre real de la sesión en el backend sigue en segundo plano.
+    this.clearSession();
+    void this.insforge.client.auth.signOut();
   }
 
-  private allUsers(): User[] {
-    return [...(DEMO_USERS as User[]), ...this.registeredUsers()];
+  /**
+   * Inicia sesión con Google. El SDK redirige al proveedor y, al volver a
+   * /dashboard, intercambia el código automáticamente.
+   */
+  async loginWithGoogle(): Promise<boolean> {
+    const { error } = await this.insforge.client.auth.signInWithOAuth('google', {
+      redirectTo: `${window.location.origin}/dashboard`,
+    });
+    return !error;
   }
 
-  private findByEmail(email: string): User | undefined {
-    const normalized = email.trim().toLowerCase();
-    return this.allUsers().find((u) => u.email.toLowerCase() === normalized);
-  }
+  private async refreshSession(): Promise<void> {
+    const { data, error } = await this.insforge.client.auth.getCurrentUser();
 
-  /** Con "Recuérdame" la sesión sobrevive al cerrar el navegador; si no, dura lo que la pestaña. */
-  private startSession(user: User, remember: boolean): void {
-    const { password: _password, ...session } = user;
-    this.currentUserState.set(session);
-
-    // Limpia la sesión anterior del otro almacenamiento para que no reviva al reabrir el navegador.
-    localStorage.removeItem(STORAGE_KEYS.session);
-    sessionStorage.removeItem(STORAGE_KEYS.session);
-
-    const storage = remember ? localStorage : sessionStorage;
-    storage.setItem(STORAGE_KEYS.session, JSON.stringify(session));
-  }
-
-  private restoreSession(): SessionUser | null {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEYS.session) ?? sessionStorage.getItem(STORAGE_KEYS.session);
-      return raw ? (JSON.parse(raw) as SessionUser) : null;
-    } catch {
-      return null;
+    if (data?.user) {
+      this.setSession(toSessionUser(data.user));
+      return;
     }
+
+    // Solo se borra si el backend confirmó que no hay sesión (401).
+    if (error?.statusCode === 401) {
+      this.clearSession();
+    }
+  }
+
+  private setSession(user: SessionUser): void {
+    this.currentUserState.set(user);
+    saveToStorage(SESSION_KEY, user);
+  }
+
+  private clearSession(): void {
+    this.currentUserState.set(null);
+    localStorage.removeItem(SESSION_KEY);
   }
 }

@@ -19,29 +19,46 @@ export class Login {
   readonly error = signal<string | null>(null);
   readonly notice = signal<string | null>(null);
   readonly showPassword = signal(false);
+  readonly isLoading = signal(false);
+  readonly oauthError = signal<string | null>(null);
 
   onForgotPassword(event: Event): void {
     event.preventDefault();
     this.notice.set(
-      'Esta es una demo local y no envía correos. Usa una de las cuentas de prueba que aparecen abajo.',
+      'Esta es una demo: no se envían correos de recuperación. Crea una cuenta nueva si olvidaste tu contraseña.',
     );
   }
 
-  onSubmit(event: Event): void {
+  /** Redirige a la pantalla de Google; al volver, el SDK crea la sesión. */
+  async onGoogle(): Promise<void> {
+    this.oauthError.set(null);
+    this.isLoading.set(true);
+    const started = await this.auth.loginWithGoogle();
+    this.isLoading.set(false);
+
+    if (!started) {
+      this.oauthError.set('No se pudo abrir el inicio de sesión con Google. Inténtalo de nuevo.');
+    }
+  }
+
+  async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
     this.notice.set(null);
 
     const form = event.target as HTMLFormElement;
     const email = (form.elements.namedItem('email') as HTMLInputElement).value.trim();
     const password = (form.elements.namedItem('password') as HTMLInputElement).value;
-    const remember = (form.elements.namedItem('remember') as HTMLInputElement).checked;
 
     if (!email || !password) {
       this.error.set('Ingresa tu correo y tu contraseña para continuar.');
       return;
     }
 
-    if (!this.auth.login(email, password, remember)) {
+    this.isLoading.set(true);
+    const loggedIn = await this.auth.login(email, password);
+    this.isLoading.set(false);
+
+    if (!loggedIn) {
       this.error.set('Correo o contraseña incorrectos. Revisa tus datos e inténtalo de nuevo.');
       return;
     }

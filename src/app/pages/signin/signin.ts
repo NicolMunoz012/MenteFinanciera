@@ -18,8 +18,9 @@ export class Signin {
   readonly showPassword = signal(false);
   readonly showConfirm = signal(false);
   readonly showTerms = signal(false);
+  readonly isLoading = signal(false);
 
-  onSubmit(event: Event): void {
+  async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
     const form = new FormData(event.target as HTMLFormElement);
     const name = String(form.get('name') ?? '').trim();
@@ -44,8 +45,12 @@ export class Signin {
       return this.error.set('Debes aceptar los términos y condiciones.');
     }
 
-    if (!this.auth.register({ name, email, password })) {
-      return this.error.set('Ya existe una cuenta con ese correo. Inicia sesión.');
+    this.isLoading.set(true);
+    const registered = await this.auth.register({ name, email, password });
+    this.isLoading.set(false);
+
+    if (!registered) {
+      return this.error.set('No se pudo crear la cuenta. Revisa los datos o inicia sesión.');
     }
 
     this.error.set('');

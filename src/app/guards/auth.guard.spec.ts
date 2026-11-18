@@ -1,43 +1,56 @@
+import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter, UrlTree } from '@angular/router';
+import { SessionUser } from '../models/user.model';
 import { AuthService } from '../services/auth.service';
 import { authGuard, guestGuard } from './auth.guard';
 
 describe('Auth guards', () => {
-  let auth: AuthService;
+  const currentUser = signal<SessionUser | null>(null);
 
   beforeEach(() => {
-    localStorage.clear();
-    sessionStorage.clear();
-    TestBed.configureTestingModule({ providers: [provideRouter([])] });
-    auth = TestBed.inject(AuthService);
+    currentUser.set(null);
+    TestBed.configureTestingModule({
+      providers: [
+        provideRouter([]),
+        { provide: AuthService, useValue: { currentUser, ready: Promise.resolve() } },
+      ],
+    });
   });
 
   const runGuard = (guard: typeof authGuard, url: string) =>
     TestBed.runInInjectionContext(() => guard({} as never, { url } as never));
 
-  it('bloquea las rutas privadas sin sesión y recuerda la ruta pedida', () => {
-    const result = runGuard(authGuard, '/dashboard');
+  const signIn = () =>
+    currentUser.set({
+      id: 'uuid-1',
+      name: 'Carlos Ruiz',
+      email: 'carlos@mentefinanciera.com',
+      tier: 'FREE MEMBER',
+    });
+
+  it('bloquea las rutas privadas sin sesión y recuerda la ruta pedida', async () => {
+    const result = await runGuard(authGuard, '/dashboard');
 
     expect(result instanceof UrlTree).toBe(true);
     expect((result as UrlTree).toString()).toContain('returnUrl=%2Fdashboard');
   });
 
-  it('permite las rutas privadas cuando hay sesión', () => {
-    auth.login('carlos@mentefinanciera.com', 'Carlos123*');
+  it('permite las rutas privadas cuando hay sesión', async () => {
+    signIn();
 
-    expect(runGuard(authGuard, '/dashboard')).toBe(true);
+    expect(await runGuard(authGuard, '/dashboard')).toBe(true);
   });
 
-  it('no deja volver al login si ya hay sesión', () => {
-    auth.login('carlos@mentefinanciera.com', 'Carlos123*');
+  it('no deja volver al login si ya hay sesión', async () => {
+    signIn();
 
-    const result = runGuard(guestGuard, '/login');
+    const result = await runGuard(guestGuard, '/login');
     expect(result instanceof UrlTree).toBe(true);
     expect((result as UrlTree).toString()).toBe('/dashboard');
   });
 
-  it('permite el login cuando no hay sesión', () => {
-    expect(runGuard(guestGuard, '/login')).toBe(true);
+  it('permite el login cuando no hay sesión', async () => {
+    expect(await runGuard(guestGuard, '/login')).toBe(true);
   });
 });

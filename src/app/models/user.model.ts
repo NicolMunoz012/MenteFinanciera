@@ -1,12 +1,10 @@
-export interface User {
-  id: number;
+/** Usuario con sesión activa, tal como lo consumen las pantallas. */
+export interface SessionUser {
+  /** id de InsForge (UUID). */
+  id: string;
   name: string;
   email: string;
-  password: string;
   tier: string;
 }
 
-/** Datos del usuario que quedan en la sesión (nunca se guarda la contraseña). */
-export type SessionUser = Omit<User, 'password'>;
-
-export type NewUser = Pick<User, 'name' | 'email' | 'password'>;
+export type NewUser = Pick<SessionUser, 'name' | 'email'> & { password: string };

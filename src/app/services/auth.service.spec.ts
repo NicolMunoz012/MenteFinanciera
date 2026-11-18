@@ -1,49 +1,101 @@
 import { TestBed } from '@angular/core/testing';
-import { AuthService } from './auth.service';
+import { InsforgeClient } from '../core/insforge';
+import { AuthService, toSessionUser } from './auth.service';
+
+const USER = {
+  id: 'uuid-1',
+  email: 'carlos@mentefinanciera.com',
+  emailVerified: true,
+  providers: ['password'],
+  createdAt: '2026-01-01T00:00:00Z',
+  updatedAt: '2026-01-01T00:00:00Z',
+  profile: { name: 'Carlos Ruiz' },
+};
+
+interface FakeAuth {
+  signInWithPassword: () => Promise<{ data: unknown; error: unknown }>;
+  signUp: () => Promise<{ data: unknown; error: unknown }>;
+  signOut: () => Promise<{ error: unknown }>;
+  getCurrentUser: () => Promise<{ data: unknown; error: unknown }>;
+}
+
+/** Cliente falso: los tests no dependen de internet. */
+function createFakeAuth(): FakeAuth {
+  return {
+    signInWithPassword: async () => ({ data: null, error: null }),
+    signUp: async () => ({ data: null, error: null }),
+    signOut: async () => ({ error: null }),
+    getCurrentUser: async () => ({ data: { user: null }, error: null }),
+  };
+}
 
 describe('AuthService', () => {
   let auth: AuthService;
+  let authApi: FakeAuth;
 
   beforeEach(() => {
     localStorage.clear();
-    sessionStorage.clear();
-    TestBed.configureTestingModule({});
+    authApi = createFakeAuth();
+
+    TestBed.configureTestingModule({
+      providers: [{ provide: InsforgeClient, useValue: { client: { auth: authApi } } }],
+    });
     auth = TestBed.inject(AuthService);
   });
 
-  it('inicia sesión con los usuarios de users.json', () => {
-    expect(auth.login('carlos@mentefinanciera.com', 'Carlos123*')).toBe(true);
-    expect(auth.currentUser()?.name).toBe('Carlos Ruiz');
-
-    expect(auth.login('  LAURA@mentefinanciera.com ', 'Laura123*')).toBe(true);
-    expect(auth.currentUser()?.name).toBe('Laura Gómez');
+  it('convierte el usuario de InsForge al modelo de la app', () => {
+    expect(toSessionUser(USER)).toEqual({
+      id: 'uuid-1',
+      name: 'Carlos Ruiz',
+      email: 'carlos@mentefinanciera.com',
+      tier: 'FREE MEMBER',
+    });
   });
 
-  it('rechaza una contraseña incorrecta o un correo desconocido', () => {
-    expect(auth.login('carlos@mentefinanciera.com', 'otra')).toBe(false);
-    expect(auth.login('nadie@ejemplo.com', 'Carlos123*')).toBe(false);
+  it('usa la parte del correo si el perfil no tiene nombre', () => {
+    expect(toSessionUser({ ...USER, profile: null }).name).toBe('carlos');
+  });
+
+  it('inicia sesión con las credenciales correctas', async () => {
+    authApi.signInWithPassword = async () => ({
+      data: { user: USER, accessToken: 'token' },
+      error: null,
+    });
+
+    await expect(auth.login('  carlos@mentefinanciera.com ', 'Carlos123*')).resolves.toBe(true);
+    expect(auth.currentUser()?.name).toBe('Carlos Ruiz');
+    expect(localStorage.getItem('mf.session')).toContain('Carlos Ruiz');
+  });
+
+  it('rechaza una contraseña incorrecta', async () => {
+    authApi.signInWithPassword = async () => ({
+      data: null,
+      error: { statusCode: 401, message: 'Invalid credentials' },
+    });
+
+    await expect(auth.login('carlos@mentefinanciera.com', 'otra')).resolves.toBe(false);
     expect(auth.currentUser()).toBeNull();
   });
 
-  it('no guarda la contraseña en la sesión', () => {
-    auth.login('carlos@mentefinanciera.com', 'Carlos123*', true);
-    expect(localStorage.getItem('mf.session')).not.toContain('Carlos123*');
+  it('registra una cuenta nueva e inicia sesión', async () => {
+    authApi.signUp = async () => ({ data: { user: USER, accessToken: 'token' }, error: null });
+
+    await expect(
+      auth.register({ name: 'Carlos Ruiz', email: 'carlos@mentefinanciera.com', password: 'Carlos123*' }),
+    ).resolves.toBe(true);
+    expect(auth.currentUser()?.email).toBe('carlos@mentefinanciera.com');
   });
 
-  it('al entrar sin "Recuérdame" no deja viva una sesión anterior', () => {
-    auth.login('carlos@mentefinanciera.com', 'Carlos123*', true);
-    expect(localStorage.getItem('mf.session')).not.toBeNull();
+  it('no deja la sesión viva al cerrar sesión', async () => {
+    authApi.signInWithPassword = async () => ({
+      data: { user: USER, accessToken: 'token' },
+      error: null,
+    });
+    await auth.login('carlos@mentefinanciera.com', 'Carlos123*');
 
-    auth.login('laura@mentefinanciera.com', 'Laura123*', false);
+    auth.logout();
+
+    expect(auth.currentUser()).toBeNull();
     expect(localStorage.getItem('mf.session')).toBeNull();
-    expect(sessionStorage.getItem('mf.session')).toContain('Laura');
-  });
-
-  it('registra usuarios nuevos y no permite correos repetidos', () => {
-    expect(auth.register({ name: 'Ana', email: 'ana@ejemplo.com', password: 'Secreta123' })).toBe(true);
-    expect(auth.currentUser()?.email).toBe('ana@ejemplo.com');
-    expect(auth.login('ana@ejemplo.com', 'Secreta123')).toBe(true);
-
-    expect(auth.register({ name: 'Otro', email: 'carlos@mentefinanciera.com', password: 'x12345678' })).toBe(false);
   });
 });
