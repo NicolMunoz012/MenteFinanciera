@@ -1,5 +1,5 @@
 import { computed, DestroyRef, effect, inject, Injectable, Signal, signal } from '@angular/core';
-import { SEED_CATEGORIES, createSeedGoals, createSeedReminders, createSeedTransactions } from '../data/seed-data';
+import { SEED_CATEGORIES } from '../data/seed-data';
 import { NewCategory, Category } from '../models/category.model';
 import { NewGoal, Goal } from '../models/goal.model';
 import { NewReminder, Reminder } from '../models/reminder.model';
@@ -14,6 +14,7 @@ import { buildKpis } from '../utils/kpis';
 import { loadFromStorage, saveToStorage } from '../utils/storage';
 import { inMonth, monthStats } from '../utils/transaction-stats';
 import { AuthService } from './auth.service';
+import { FinanceRepository } from './finance.repository';
 
 type StorageName = 'transactions' | 'categories' | 'goals' | 'reminders' | 'dismissedAlerts';
 
@@ -36,6 +37,7 @@ function isPermanentAlert(id: string): boolean {
 @Injectable({ providedIn: 'root' })
 export class FinanceService {
   private readonly auth = inject(AuthService);
+  private readonly repository = inject(FinanceRepository);
   private readonly destroyRef = inject(DestroyRef);
 
   /** Se refresca cada minuto para no quedarse con el día anterior. */
@@ -146,15 +148,15 @@ export class FinanceService {
       return false;
     }
 
-    this.transactionsState.update((list) => [
-      ...list,
-      { ...newTransaction, name, id: nextId(list) },
-    ]);
+    const transaction: Transaction = { ...newTransaction, name, id: nextId(this.transactions()) };
+    this.transactionsState.update((list) => [...list, transaction]);
+    this.sync(() => this.repository.insertTransaction(transaction));
     return true;
   }
 
   deleteTransaction(id: number): void {
     this.transactionsState.update((list) => list.filter((transaction) => transaction.id !== id));
+    this.sync(() => this.repository.deleteTransaction(this.owner(), id));
   }
 
   /** Indica si el nombre ya existe (sin distinguir mayúsculas) o está reservado. */
@@ -180,6 +182,8 @@ export class FinanceService {
     }
 
     this.categoriesState.update((list) => [...list, { ...newCategory, name, id: nextId(list) }]);
+    const category = this.categories()[this.categories().length - 1];
+    this.sync(() => this.repository.insertCategory(category));
     return true;
   }
 
@@ -190,6 +194,7 @@ export class FinanceService {
     }
 
     this.categoriesState.update((list) => list.filter((item) => item.id !== id));
+    this.sync(() => this.repository.deleteCategory(this.owner(), id));
 
     // Los movimientos no quedan apuntando a una categoría que ya no existe.
     const fallback =
@@ -205,10 +210,13 @@ export class FinanceService {
           : transaction,
       ),
     );
+    this.sync(() => this.repository.replaceTransactions(this.owner(), this.transactions()));
   }
 
   addGoal(newGoal: NewGoal): void {
     this.goalsState.update((list) => [...list, { ...newGoal, saved: 0, id: nextId(list) }]);
+    const goal = this.goals()[this.goals().length - 1];
+    this.sync(() => this.repository.insertGoal(goal));
   }
 
   contributeToGoal(id: number, amount: number): void {
@@ -217,24 +225,39 @@ export class FinanceService {
         goal.id === id ? { ...goal, saved: Math.min(goal.target, goal.saved + amount) } : goal,
       ),
     );
+    const goal = this.goals().find((item) => item.id === id);
+    if (goal) {
+      this.sync(() => this.repository.updateGoalSaved(this.owner(), id, goal.saved));
+    }
   }
 
   deleteGoal(id: number): void {
     this.goalsState.update((list) => list.filter((goal) => goal.id !== id));
+    this.sync(() => this.repository.deleteGoal(this.owner(), id));
   }
 
   addReminder(newReminder: NewReminder): void {
-    this.remindersState.update((list) => [...list, { ...newReminder, isPaid: false, id: nextId(list) }]);
+    this.remindersState.update((list) => [
+      ...list,
+      { ...newReminder, isPaid: false, id: nextId(list) },
+    ]);
+    const reminder = this.reminders()[this.reminders().length - 1];
+    this.sync(() => this.repository.insertReminder(reminder));
   }
 
   togglePaid(id: number): void {
     this.remindersState.update((list) =>
       list.map((reminder) => (reminder.id === id ? { ...reminder, isPaid: !reminder.isPaid } : reminder)),
     );
+    const reminder = this.reminders().find((item) => item.id === id);
+    if (reminder) {
+      this.sync(() => this.repository.updateReminderPaid(this.owner(), id, reminder.isPaid));
+    }
   }
 
   deleteReminder(id: number): void {
     this.remindersState.update((list) => list.filter((reminder) => reminder.id !== id));
+    this.sync(() => this.repository.deleteReminder(this.owner(), id));
   }
 
   dismissAlert(id: string): void {
@@ -251,12 +274,12 @@ export class FinanceService {
     const month = monthKey(todayValue);
 
     this.transactionsState.set(
-      loadFromStorage(this.storageKey(owner, 'transactions'), createSeedTransactions(todayValue)),
+      loadFromStorage(this.storageKey(owner, 'transactions'), []),
     );
     this.categoriesState.set(loadFromStorage(this.storageKey(owner, 'categories'), SEED_CATEGORIES));
-    this.goalsState.set(loadFromStorage(this.storageKey(owner, 'goals'), createSeedGoals(todayValue)));
+    this.goalsState.set(loadFromStorage(this.storageKey(owner, 'goals'), []));
     this.remindersState.set(
-      loadFromStorage(this.storageKey(owner, 'reminders'), createSeedReminders(todayValue)),
+      loadFromStorage(this.storageKey(owner, 'reminders'), []),
     );
     this.dismissedAlertsState.set(
       this.normalizeDismissed(
@@ -267,6 +290,50 @@ export class FinanceService {
         month,
       ),
     );
+
+    // El localStorage es la caché (para pintar de inmediato); InsForge es la
+    // fuente de verdad y se consulta justo después.
+    if (owner !== 'guest') {
+      void this.refreshFromBackend(owner);
+    }
+  }
+
+  /**
+   * Trae los datos del usuario desde InsForge. Si la cuenta no tiene
+   * categorías (cuenta nueva), crea las categorías base y deja el resto vacío.
+   */
+  private async refreshFromBackend(owner: string): Promise<void> {
+    const snapshot = await this.repository.loadAll();
+
+    // El usuario cambió mientras la petición estaba en camino.
+    if (!snapshot || this.loadedOwner !== owner) {
+      return;
+    }
+
+    if (snapshot.categories.length === 0) {
+      const defaults = SEED_CATEGORIES;
+      await this.repository.seedCategories(defaults);
+      snapshot.categories = defaults;
+    }
+
+    this.transactionsState.set(snapshot.transactions);
+    this.categoriesState.set(snapshot.categories);
+    this.goalsState.set(snapshot.goals);
+    this.remindersState.set(snapshot.reminders);
+  }
+
+  /** Solo se escribe en InsForge cuando hay una cuenta real cargada. */
+  private canSync(): boolean {
+    const owner = this.owner();
+    return owner !== 'guest' && owner === this.loadedOwner;
+  }
+
+  /** Guarda en la base de datos sin bloquear la interfaz. */
+  private sync(save: () => Promise<void>): void {
+    if (!this.canSync()) {
+      return;
+    }
+    void save().catch((error) => console.warn('[InsForge] No se pudo guardar', error));
   }
 
   /** En un mes nuevo vuelven a mostrarse las alertas de presupuesto y gasto-hormiga. */

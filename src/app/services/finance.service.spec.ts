@@ -1,21 +1,30 @@
+import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { INCOME_CATEGORY } from '../models/transaction.model';
-import { today } from '../utils/dates';
+import { SessionUser } from '../models/user.model';
+import { addDays, today } from '../utils/dates';
 import { AuthService } from './auth.service';
 import { FinanceService } from './finance.service';
 
 describe('FinanceService', () => {
   let service: FinanceService;
+  const currentUser = signal<SessionUser | null>(null);
 
   beforeEach(() => {
     localStorage.clear();
     sessionStorage.clear();
-    TestBed.configureTestingModule({});
+    currentUser.set(null);
+    TestBed.configureTestingModule({
+      // Sin sesión el servicio trabaja como invitado y no llama a InsForge.
+      providers: [{ provide: AuthService, useValue: { currentUser } }],
+    });
     service = TestBed.inject(FinanceService);
   });
 
-  it('starts with sample data', () => {
-    expect(service.transactions().length).toBeGreaterThan(0);
+  it('arranca con categorías base y sin datos inventados', () => {
+    expect(service.transactions()).toEqual([]);
+    expect(service.goals()).toEqual([]);
+    expect(service.reminders()).toEqual([]);
     expect(service.categories().length).toBeGreaterThan(0);
   });
 
@@ -84,7 +93,8 @@ describe('FinanceService', () => {
   });
 
   it('stops alerting about a reminder once it is paid', () => {
-    const dueSoon = service.reminders().find((reminder) => reminder.name === 'Suscripción Netflix')!;
+    service.addReminder({ name: 'Netflix', amount: 30000, dueDate: addDays(today(), 3) });
+    const dueSoon = service.reminders()[0];
     expect(service.alerts().some((alert) => alert.id === `reminder-${dueSoon.id}`)).toBe(true);
 
     service.togglePaid(dueSoon.id);
@@ -93,6 +103,7 @@ describe('FinanceService', () => {
   });
 
   it('never saves more than the goal target', () => {
+    service.addGoal({ name: 'Viaje', target: 1000, dueDate: addDays(today(), 30) });
     const goal = service.goals()[0];
 
     service.contributeToGoal(goal.id, goal.target * 10);
@@ -109,38 +120,18 @@ describe('FinanceService', () => {
 
   it('mueve los movimientos a Otros al eliminar una categoría', () => {
     const food = service.categories().find((category) => category.name === 'Alimentos')!;
+    service.addTransaction({
+      name: 'Almuerzo',
+      category: 'Alimentos',
+      type: 'expense',
+      amount: 10,
+      date: today(),
+      source: 'manual',
+    });
 
     service.deleteCategory(food.id);
 
     expect(service.transactions().some((transaction) => transaction.category === 'Alimentos')).toBe(false);
     expect(service.transactions().some((transaction) => transaction.category === 'Otros')).toBe(true);
-  });
-
-  it('separa los datos de cada cuenta que usa el navegador', () => {
-    const auth = TestBed.inject(AuthService);
-
-    auth.login('carlos@mentefinanciera.com', 'Carlos123*');
-    TestBed.tick();
-
-    service.addTransaction({
-      name: 'Movimiento de Carlos',
-      category: 'Salud',
-      type: 'expense',
-      amount: 15,
-      date: today(),
-      source: 'manual',
-    });
-    TestBed.tick();
-
-    expect(localStorage.getItem('mf.user-1.transactions')).toContain('Movimiento de Carlos');
-
-    auth.logout();
-    TestBed.tick();
-    auth.login('laura@mentefinanciera.com', 'Laura123*');
-    TestBed.tick();
-
-    expect(service.transactions().some((transaction) => transaction.name === 'Movimiento de Carlos')).toBe(
-      false,
-    );
   });
 });

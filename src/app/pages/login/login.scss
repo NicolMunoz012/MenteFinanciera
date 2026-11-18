@@ -19,38 +19,49 @@
   color: var(--text);
 }
 
-/* Credenciales de demostración, visibles para quien evalúe el proyecto. */
-.demo-hint {
+/* Botón de Google y separador "o". */
+.oauth {
   display: flex;
-  flex-direction: column;
-  gap: 7px;
-  margin-top: 16px;
-  padding: 13px 14px;
-  background: var(--surface-2);
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
   border-radius: var(--r-md);
-  box-shadow: inset 0 0 0 1px var(--border);
-  font-size: 11.5px;
-  color: var(--muted);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
-.demo-hint__title {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+.oauth:hover:not(:disabled) {
+  background: var(--surface-2);
+  border-color: var(--teal-ring);
+}
+
+.oauth:disabled,
+.submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--dim);
 }
 
-.demo-hint__row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 4px 12px;
-}
-
-.demo-hint__row code {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: -0.01em;
-  color: var(--teal);
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
 }
