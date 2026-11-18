@@ -1,0 +1,47 @@
+<div class="dashboard">
+
+  <app-navbar></app-navbar>
+
+  <main class="main">
+
+    <app-topbar title="Categorías"></app-topbar>
+
+    <div class="content">
+
+      <form class="card form-card" [formGroup]="categoryForm" (ngSubmit)="submit()">
+        <h2 class="card__title">Nueva categoría</h2>
+        <div class="form-card__fields">
+          <app-form-field label="Nombre" [control]="categoryForm.controls.name">
+            <input
+              class="field__input"
+              type="text"
+              formControlName="name"
+              placeholder="Ej. Mascotas"
+              (input)="error.set(null)">
+          </app-form-field>
+          <app-form-field label="Presupuesto mensual" [control]="categoryForm.controls.budget">
+            <input class="field__input" type="number" formControlName="budget" min="0">
+          </app-form-field>
+        </div>
+        <p class="form-error" *ngIf="error()" role="alert">{{ error() }}</p>
+        <p class="form-note">Al eliminar una categoría, sus movimientos pasan a "Otros".</p>
+        <div class="form-card__actions">
+          <button class="btn-primary" type="submit">Agregar categoría</button>
+        </div>
+      </form>
+
+      <p class="empty-state" *ngIf="!budgets().length">Aún no tienes categorías. Crea la primera arriba.</p>
+
+      <section class="categories-grid" aria-label="Presupuesto por categoría" *ngIf="budgets().length">
+        <app-progress-card
+          *ngFor="let budget of budgets()"
+          [title]="budget.name"
+          [current]="budget.spent"
+          [target]="budget.budget"
+          (removed)="remove(budget.id)">
+        </app-progress-card>
+      </section>
+
+    </div>
+  </main>
+</div>

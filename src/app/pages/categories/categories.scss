@@ -1,0 +1,26 @@
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+  gap: clamp(16px, 2vw, 22px);
+  width: 100%;
+}
+
+.form-error {
+  padding: 11px 13px;
+  background: var(--red-soft);
+  border-radius: var(--r-sm);
+  box-shadow: inset 0 0 0 1px var(--red-ring);
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--red);
+}
+
+/* Nota auxiliar del formulario: misma escala que las micro-etiquetas. */
+.form-note {
+  max-width: 68ch;
+  margin-top: -6px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--dim);
+  text-wrap: pretty;
+}

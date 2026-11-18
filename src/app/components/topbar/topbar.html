@@ -1,0 +1,54 @@
+<header class="topbar">
+  <h1 class="topbar__title">{{ title }}</h1>
+  <div class="topbar__actions">
+    <label class="search">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M14.0001 14.0001L11.1068 11.1068M12.6667 7.33333C12.6667 10.2789 10.2789 12.6667 7.33333 12.6667C4.38781 12.6667 2 10.2789 2 7.33333C2 4.38781 4.38781 2 7.33333 2C10.2789 2 12.6667 4.38781 12.6667 7.33333Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <input
+        class="search__input"
+        type="search"
+        placeholder="Buscar transacciones..."
+        aria-label="Buscar transacciones"
+        [value]="searchTerm()"
+        (input)="onSearchInput($event)"
+        (keydown.enter)="submitSearch()">
+    </label>
+
+    <a class="icon-btn icon-btn--search" routerLink="/buscar" aria-label="Buscar transacciones" title="Buscar">
+      <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M14.0001 14.0001L11.1068 11.1068M12.6667 7.33333C12.6667 10.2789 10.2789 12.6667 7.33333 12.6667C4.38781 12.6667 2 10.2789 2 7.33333C2 4.38781 4.38781 2 7.33333 2C10.2789 2 12.6667 4.38781 12.6667 7.33333Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </a>
+
+    <button
+      class="icon-btn icon-btn--mic"
+      type="button"
+      [class.icon-btn--mic-active]="voice.panelOpen()"
+      [attr.aria-label]="voice.isListening() ? 'Detener el micrófono' : 'Registrar un movimiento por voz'"
+      [attr.title]="voice.isListening() ? 'Detener el micrófono' : 'Registrar por voz'"
+      (click)="voice.openPanel()">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M10 15.8338V18.334M4.16602 8.33318V9.99998C4.16602 11.5472 4.78067 13.0311 5.87475 14.1251C6.96884 15.2192 8.45274 15.8338 10 15.8338C11.5473 15.8338 13.0312 15.2192 14.1253 14.1251C15.2194 13.0311 15.834 11.5472 15.834 9.99998V8.33318M10 1.66599C11.3809 1.66599 12.5003 2.78536 12.5003 4.16618V9.99998C12.5003 11.3808 11.3809 12.5002 10 12.5002C8.61915 12.5002 7.49973 11.3808 7.49973 9.99998V4.16618C7.49973 2.78536 8.61915 1.66599 10 1.66599Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <a class="icon-btn icon-btn--alerts" routerLink="/alertas" aria-label="Ver alertas" title="Ver alertas">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M10 3.1a4.55 4.55 0 0 0-4.55 4.55c0 3.4-1.05 4.5-1.95 5.5h13c-.9-1-1.95-2.1-1.95-5.5A4.55 4.55 0 0 0 10 3.1Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M8.4 16.1a1.7 1.7 0 0 0 3.2 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="14.6" cy="4.7" r="2.6" style="fill: var(--red)"/>
+      </svg>
+    </a>
+
+    <app-theme-toggle />
+
+    <button class="icon-btn" type="button" aria-label="Cerrar sesión" title="Cerrar sesión" (click)="logout()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+    </button>
+  </div>
+</header>

@@ -1,0 +1,110 @@
+:host {
+  display: contents;
+}
+
+.area-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  gap: 22px;
+  min-width: 0;
+  padding: clamp(20px, 2.4vw, 28px);
+}
+
+.chart-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  width: 100%;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.legend__item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.legend__item svg {
+  width: 7px;
+  height: 7px;
+}
+
+.chart-body {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  flex-shrink: 0;
+}
+
+.chart-body__svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 220px;
+  overflow: visible;
+}
+
+/* Al estirarse, las líneas conservan su grosor */
+.chart-body__svg line,
+.chart-body__svg polyline {
+  vector-effect: non-scaling-stroke;
+}
+
+.chart-grid {
+  stroke: var(--chart-grid);
+}
+
+.chart-line--expense {
+  stroke: var(--red);
+  stroke-width: 2;
+  opacity: 0.85;
+}
+
+.chart-line--income {
+  stroke: var(--teal);
+  stroke-width: 2.75;
+}
+
+.chart-empty {
+  position: absolute;
+  inset: 40px 0 40px 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--muted);
+  text-align: center;
+}
+
+.chart-body__labels {
+  position: absolute;
+  top: 200px;
+  /* De x=50 a x=568 del viewBox, igual que los datos */
+  left: calc(50 / 568 * 100%);
+  right: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--dim);
+  white-space: nowrap;
+}

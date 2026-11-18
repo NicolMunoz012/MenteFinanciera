@@ -1,0 +1,34 @@
+<div class="dashboard">
+
+  <app-navbar></app-navbar>
+
+  <main class="main">
+
+    <app-topbar [title]="greeting()"></app-topbar>
+
+    <div class="content">
+
+      <section class="kpi-row" aria-label="Resumen del mes">
+        <app-kpi-card
+          *ngFor="let kpi of kpis()"
+          [label]="kpi.label"
+          [value]="kpi.value"
+          [delta]="kpi.delta"
+          [down]="kpi.down"
+          [points]="kpi.points">
+        </app-kpi-card>
+      </section>
+
+      <section class="core-split">
+        <app-cash-flow-card></app-cash-flow-card>
+        <app-expense-donut-card [items]="expenseShares()" [total]="monthExpenses()"></app-expense-donut-card>
+      </section>
+
+      <section class="bottom-split">
+        <app-voice-agent-card></app-voice-agent-card>
+        <app-alerts-card [alerts]="latestAlerts()"></app-alerts-card>
+      </section>
+
+    </div>
+  </main>
+</div>

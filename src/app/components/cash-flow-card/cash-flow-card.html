@@ -1,0 +1,52 @@
+<article class="card area-card">
+  <div class="chart-header">
+    <h2 class="card__title">Flujo de Caja (Últimos 6 meses)</h2>
+    <div class="legend">
+      <span class="legend__item">
+        <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="4" cy="4" r="4" style="fill: var(--teal)"/></svg>
+        Ingresos
+      </span>
+      <span class="legend__item">
+        <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="4" cy="4" r="4" style="fill: var(--red)"/></svg>
+        Gastos
+      </span>
+    </div>
+  </div>
+
+  <div class="chart-body">
+    <svg class="chart-body__svg" viewBox="0 0 568 220" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gráfico de flujo de caja: ingresos y gastos de los últimos 6 meses">
+      <defs>
+        <linearGradient id="area-gradient" x1="300" y1="40" x2="300" y2="180" gradientUnits="userSpaceOnUse">
+          <stop style="stop-color: var(--teal)"/>
+          <stop offset="1" style="stop-color: var(--teal); stop-opacity: 0"/>
+        </linearGradient>
+      </defs>
+      <!-- Líneas guía -->
+      <line class="chart-grid" x1="0" y1="40" x2="568" y2="40" stroke-dasharray="4 4"/>
+      <line class="chart-grid" x1="0" y1="110" x2="568" y2="110" stroke-dasharray="4 4"/>
+      <line class="chart-grid" x1="0" y1="180" x2="568" y2="180" stroke-dasharray="4 4"/>
+      <!-- Relleno bajo la línea de ingresos -->
+      <polygon [attr.points]="chart().areaPoints" fill="url(#area-gradient)" fill-opacity="0.18"/>
+      <!-- Gastos -->
+      <polyline
+        class="chart-line chart-line--expense"
+        [attr.points]="chart().expensePoints"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+      <!-- Ingresos -->
+      <polyline
+        class="chart-line chart-line--income"
+        [attr.points]="chart().incomePoints"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+    </svg>
+
+    <p class="chart-empty" *ngIf="!chart().hasData">Aún no hay movimientos en los últimos 6 meses.</p>
+
+    <div class="chart-body__labels">
+      <span *ngFor="let month of chart().months">{{ month.label }}</span>
+    </div>
+  </div>
+</article>

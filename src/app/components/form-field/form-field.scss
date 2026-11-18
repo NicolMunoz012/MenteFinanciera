@@ -1,0 +1,28 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+/* Misma micro-etiqueta que las cifras del dashboard: 11px, mayúsculas y tracking amplio. */
+.field__label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.field__error {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--red);
+  text-wrap: pretty;
+}

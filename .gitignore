@@ -19,6 +19,7 @@ yarn-error.log
 *.launch
 .settings/
 *.sublime-workspace
+.vscode
 
 # Visual Studio Code
 .vscode/*
@@ -42,3 +43,13 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# InsForge (contiene la llave de administrador; nunca se sube)
+/.insforge
+/opencode.json
+.env
+.env.local
+.env*.local
+
+# Generado por scripts/set-env.mjs a partir de .env
+/src/environments/environment.ts

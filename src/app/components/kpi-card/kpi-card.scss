@@ -1,0 +1,104 @@
+:host {
+  display: contents;
+}
+
+.kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  padding: 20px 22px 18px;
+}
+
+/* Etiqueta de dato: pequeña, espaciada y en tono terciario para que la cifra
+   sea lo primero que se lee. */
+.kpi__label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.085em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: var(--dim);
+  white-space: nowrap;
+}
+
+.kpi__data {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+.kpi__num {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.kpi__value {
+  font-family: var(--font-mono);
+  font-size: clamp(21px, 1.75vw, 25px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.kpi__delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--teal);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Triángulo dibujado con bordes: sube o baja según sea buena o mala la variación. */
+.kpi__delta::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-right: 3.5px solid transparent;
+  border-bottom: 5.5px solid currentColor;
+  border-left: 3.5px solid transparent;
+}
+
+.kpi__delta--down {
+  color: var(--red);
+}
+
+.kpi__delta--down::before {
+  transform: rotate(180deg);
+}
+
+.kpi__spark {
+  width: 84px;
+  height: 34px;
+  flex-shrink: 0;
+  overflow: visible;
+  opacity: 0.9;
+}
+
+.kpi__spark-line {
+  stroke: var(--teal);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.kpi__spark-line--down {
+  stroke: var(--red);
+}
+
+@media (max-width: 1200px) {
+  .kpi {
+    padding: 18px 20px 16px;
+  }
+}

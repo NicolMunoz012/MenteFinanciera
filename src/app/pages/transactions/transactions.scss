@@ -1,0 +1,276 @@
+/* ---------- Transacciones del día ---------- */
+
+.tx-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  padding: clamp(20px, 2.4vw, 28px);
+}
+
+.tx-card__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+.tx-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.calendar-trigger {
+  gap: 8px;
+}
+
+/* Lista de movimientos: filas planas separadas por un hairline.
+   Evita el efecto "tarjetas dentro de tarjetas". */
+.tx-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 -12px;
+  padding: 0;
+  list-style: none;
+}
+
+.tx {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  width: calc(100% + 24px);
+  padding: 14px 12px;
+  border-radius: var(--r-md);
+  transition: background 0.16s ease;
+}
+
+.tx + .tx {
+  box-shadow: inset 0 1px 0 var(--border);
+}
+
+.tx:hover {
+  background: var(--hover);
+}
+
+.tx__icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--r-sm);
+}
+
+.tx__icon--expense {
+  background: var(--red-soft);
+  box-shadow: inset 0 0 0 1px var(--red-ring);
+  color: var(--red);
+}
+
+.tx__icon--income {
+  background: var(--teal-soft);
+  box-shadow: inset 0 0 0 1px var(--teal-ring);
+  color: var(--teal);
+}
+
+/* Formulario embebido: superficie propia para separarlo del listado. */
+.tx-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  padding: clamp(16px, 2vw, 22px);
+  background: var(--surface-2);
+  border-radius: var(--r-md);
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+
+.form-error {
+  padding: 11px 13px;
+  background: var(--red-soft);
+  border-radius: var(--r-sm);
+  box-shadow: inset 0 0 0 1px var(--red-ring);
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--red);
+}
+
+.tx__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 0;
+  gap: 4px;
+  min-width: min(180px, 100%);
+}
+
+.tx__name {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.006em;
+  color: var(--text);
+}
+
+.tx__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--dim);
+}
+
+.tx__tag {
+  padding: 2px 8px;
+  background: var(--hover-strong);
+  border-radius: 5px;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.tx__amount {
+  flex-shrink: 0;
+  margin-left: auto;
+  padding-right: 2px;
+  font-family: var(--font-mono);
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.tx__amount--expense {
+  color: var(--red);
+}
+
+.tx__amount--income {
+  color: var(--teal);
+}
+
+/* ---------- Paginación del listado ---------- */
+
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  padding-top: 14px;
+  box-shadow: inset 0 1px 0 var(--border);
+}
+
+.pager__info {
+  font-size: 12px;
+  color: var(--dim);
+}
+
+.pager__controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.pager__page {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.pager .btn-secondary:disabled {
+  opacity: 0.4;
+  background: none;
+  cursor: not-allowed;
+}
+
+/* ---------- Resumen del día ---------- */
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  padding: 18px 22px;
+  background:
+    linear-gradient(90deg, var(--teal-soft), transparent 60%),
+    var(--surface);
+  border-radius: var(--r-lg);
+  box-shadow:
+    inset 0 0 0 1px var(--teal-ring),
+    var(--shadow-sm);
+}
+
+.summary__item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 140px;
+  white-space: nowrap;
+}
+
+.summary__label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.085em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.summary__value {
+  font-family: var(--font-mono);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.summary__value--income { color: var(--teal); }
+.summary__value--expense { color: var(--red); }
+
+.summary__item--start { align-items: flex-start; }
+.summary__item--center { align-items: center; }
+.summary__item--end { align-items: flex-end; }
+
+/* En celular las tres cifras se apilan alineadas a la izquierda */
+@media (max-width: 640px) {
+  .tx-card {
+    padding: 18px;
+  }
+
+  .tx-card__actions {
+    width: 100%;
+  }
+
+  .pager__controls {
+    width: 100%;
+    margin-left: 0;
+    justify-content: space-between;
+  }
+
+  .summary {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .summary__item--center,
+  .summary__item--end {
+    align-items: flex-start;
+  }
+}

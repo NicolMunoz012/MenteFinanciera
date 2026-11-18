@@ -1,0 +1,38 @@
+<article class="card donut-card">
+  <h2 class="card__title">Distribución de Gasto</h2>
+
+  <p class="empty-state" *ngIf="!items.length">Aún no hay gastos este mes.</p>
+
+  <div class="chart-panel" *ngIf="items.length">
+    <div class="donut" role="img" [attr.aria-label]="'Distribución del gasto del mes por categoría'">
+      <svg class="donut__svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g transform="rotate(-90 60 60)">
+          <circle class="donut__track" cx="60" cy="60" [attr.r]="radius" stroke-width="18" />
+          <circle
+            *ngFor="let segment of segments"
+            cx="60"
+            cy="60"
+            [attr.r]="radius"
+            stroke-width="18"
+            [attr.stroke]="segment.color"
+            [attr.stroke-dasharray]="segment.dashArray"
+            [attr.stroke-dashoffset]="segment.dashOffset" />
+        </g>
+      </svg>
+      <div class="donut__center">
+        <p class="donut__total">{{ total | cop }}</p>
+        <p class="donut__caption">Gastado</p>
+      </div>
+    </div>
+
+    <ul class="donut-legend">
+      <li class="donut-legend__row" *ngFor="let item of items">
+        <span class="donut-legend__name">
+          <span class="donut-legend__dot" [style.background]="item.color"></span>
+          <span class="donut-legend__label">{{ item.name }}</span>
+        </span>
+        <span class="donut-legend__pct">{{ item.percent | number: '1.0-0' }}%</span>
+      </li>
+    </ul>
+  </div>
+</article>

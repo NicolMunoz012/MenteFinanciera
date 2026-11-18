@@ -1,0 +1,173 @@
+<div
+  class="voice-overlay"
+  [class.voice-overlay--open]="open"
+  [attr.aria-hidden]="!open"
+  (click)="onBackdropClick($event)">
+
+  <section
+    class="voice-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="voice-title"
+    [attr.aria-hidden]="!open">
+
+    <header class="voice-dialog__header">
+      <div class="voice-dialog__heading">
+        <span class="voice-dialog__badge" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="22"/>
+          </svg>
+        </span>
+        <div>
+          <h2 class="voice-dialog__title" id="voice-title">Registrar por voz</h2>
+          <p class="voice-dialog__subtitle">Dicta o escribe el movimiento y confírmalo antes de guardar.</p>
+        </div>
+      </div>
+
+      <button
+        class="voice-dialog__close"
+        type="button"
+        aria-label="Cerrar el panel de voz"
+        (click)="close()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M18 6 6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </header>
+
+    <div class="voice-dialog__body">
+
+      <!-- ---------- Micrófono ---------- -->
+      <div class="voice-mic" [class.voice-mic--listening]="voice.isListening()">
+        <button
+          class="voice-mic__button"
+          type="button"
+          [attr.aria-pressed]="voice.isListening()"
+          [attr.aria-label]="voice.isListening() ? 'Detener el micrófono' : 'Empezar a hablar'"
+          (click)="toggleListening()">
+          <svg *ngIf="!voice.isListening()" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="22"/>
+          </svg>
+          <svg *ngIf="voice.isListening()" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <rect x="6" y="6" width="12" height="12" rx="2"/>
+          </svg>
+        </button>
+
+        <p class="voice-mic__status" aria-live="polite">
+          <ng-container *ngIf="voice.isListening(); else idleStatus">
+            Micrófono encendido. Habla con naturalidad; seguirá escuchando aunque hagas pausas.
+          </ng-container>
+          <ng-template #idleStatus>
+            {{ voice.isSupported() ? 'Micrófono apagado. Tócalo para encenderlo y dictar.' : 'Tu navegador no permite dictar. Usa el texto de abajo.' }}
+          </ng-template>
+        </p>
+
+        <p class="voice-mic__example" *ngIf="voice.isSupported()">
+          Tú controlas el micrófono: pulsa el botón para apagarlo cuando termines.
+        </p>
+
+        <p class="voice-mic__example">
+          Puedes dictar varios: “Gasté 25.000 en almuerzo y 30.000 en taxi, y recibí 1.000.000 de salario”.
+        </p>
+      </div>
+
+      <!-- ---------- Transcripción en vivo ---------- -->
+      <div class="voice-transcript" *ngIf="voice.hasText()" aria-live="polite">
+        <p class="voice-transcript__label">Lo que escuché:</p>
+        <p class="voice-transcript__text">
+          {{ voice.transcript() }}
+          <span class="voice-transcript__interim" *ngIf="voice.interim()">{{ voice.interim() }}</span>
+        </p>
+      </div>
+
+      <!-- ---------- Alternativa por texto ---------- -->
+      <form class="voice-text" (submit)="$event.preventDefault(); interpretText()">
+        <label class="voice-text__label" for="voice-text-input">También puedes escribirlo</label>
+        <div class="voice-text__row">
+          <input
+            #textInput
+            id="voice-text-input"
+            class="field__input voice-text__input"
+            type="text"
+            autocomplete="off"
+            placeholder="Gasté 25.000 en almuerzo y 30.000 en taxi"
+            [value]="textInputValue()"
+            (input)="onTextInput($event)"
+            (keydown.enter)="$event.preventDefault(); interpretText()">
+          <button class="btn-secondary voice-text__btn" type="submit">Interpretar</button>
+        </div>
+      </form>
+
+      <p class="voice-note" *ngIf="parseNote()" role="status">{{ parseNote() }}</p>
+      <p class="voice-error" *ngIf="voice.error()" role="alert">{{ voice.error() }}</p>
+      <p class="voice-success" *ngIf="success()" role="status">{{ success() }}</p>
+
+      <!-- ---------- Confirmación de uno o varios movimientos ---------- -->
+      <section class="voice-form" aria-label="Movimientos detectados">
+        <div class="voice-form__header">
+          <p class="voice-form__title">
+            {{ drafts().length === 1 ? 'Movimiento detectado' : drafts().length + ' movimientos detectados' }}
+          </p>
+          <button class="btn-secondary" type="button" (click)="addDraft()">+ Añadir otro</button>
+        </div>
+
+        <div class="voice-draft" *ngFor="let item of drafts(); let i = index">
+          <div class="voice-draft__header">
+            <span class="voice-draft__index">Movimiento {{ i + 1 }}</span>
+            <button
+              class="voice-draft__remove"
+              type="button"
+              [attr.aria-label]="'Quitar el movimiento ' + (i + 1)"
+              (click)="removeDraft(i)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                <path d="M10 11v6M14 11v6"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="voice-draft__grid" [formGroup]="item">
+            <app-form-field label="Descripción" [control]="item.controls.name">
+              <input class="field__input" type="text" formControlName="name" placeholder="Ej. Almuerzo">
+            </app-form-field>
+
+            <app-form-field label="Monto" [control]="item.controls.amount">
+              <input class="field__input" type="number" formControlName="amount" min="0" step="0.01">
+            </app-form-field>
+
+            <app-form-field label="Tipo" [control]="item.controls.type">
+              <select class="field__input" formControlName="type" (change)="onDraftTypeChange(item)">
+                <option value="expense">Gasto</option>
+                <option value="income">Ingreso</option>
+              </select>
+            </app-form-field>
+
+            <app-form-field label="Categoría" [control]="item.controls.category">
+              <select class="field__input" formControlName="category">
+                <option value="" disabled>Elige una categoría</option>
+                <option *ngFor="let category of categoryOptions(item.controls.type.value)" [value]="category">{{ category }}</option>
+              </select>
+            </app-form-field>
+
+            <app-form-field label="Fecha" [control]="item.controls.date">
+              <input class="field__input" type="date" formControlName="date" [max]="todayIso">
+            </app-form-field>
+          </div>
+        </div>
+
+        <p class="voice-form__error" *ngIf="saveError()" role="alert">{{ saveError() }}</p>
+
+        <div class="voice-form__actions">
+          <button class="btn-secondary" type="button" (click)="close()">Cancelar</button>
+          <button class="btn-primary" type="button" (click)="save()">
+            {{ drafts().length === 1 ? 'Guardar movimiento' : 'Guardar ' + drafts().length + ' movimientos' }}
+          </button>
+        </div>
+      </section>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,273 @@
+<main class="auth signin">
+  <app-auth-brand-panel />
+  <app-theme-toggle class="auth-theme-toggle" />
+
+  <section class="form-panel">
+    <div class="form-wrap">
+      <h1 class="form-title">Crear cuenta</h1>
+      <p class="subtitle">Empieza hoy a tomar mejores decisiones con tu dinero.</p>
+
+      <form class="form" (submit)="onSubmit($event)" novalidate>
+        <div class="field">
+          <label class="field__label" for="name">Nombre completo</label>
+          <div class="control">
+            <svg
+              class="control__icon"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+            <input
+              class="input"
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Carlos Ruiz"
+              autocomplete="name"
+            />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="email">Correo electrónico</label>
+          <div class="control">
+            <svg
+              class="control__icon"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </svg>
+            <input
+              class="input"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="nombre@ejemplo.com"
+              autocomplete="email"
+            />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label class="field__label" for="password">Contraseña</label>
+            <div class="control">
+              <svg
+                class="control__icon"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="3" y="11" width="18" height="11" rx="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+              <input
+                class="input input--password"
+                [type]="showPassword() ? 'text' : 'password'"
+                id="password"
+                name="password"
+                placeholder="Mín. 8 caracteres"
+                autocomplete="new-password"
+              />
+              <button
+                type="button"
+                class="eye"
+                (click)="showPassword.set(!showPassword())"
+                [attr.aria-label]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+                [attr.aria-pressed]="showPassword()"
+              >
+                @if (showPassword()) {
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"
+                    />
+                    <line x1="1" y1="1" x2="23" y2="23" />
+                  </svg>
+                } @else {
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                }
+              </button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="confirm">Confirmar</label>
+            <div class="control">
+              <svg
+                class="control__icon"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                <polyline points="9 12 11 14 15 10" />
+              </svg>
+              <input
+                class="input input--password"
+                [type]="showConfirm() ? 'text' : 'password'"
+                id="confirm"
+                name="confirm"
+                placeholder="Repítela"
+                autocomplete="new-password"
+              />
+              <button
+                type="button"
+                class="eye"
+                (click)="showConfirm.set(!showConfirm())"
+                [attr.aria-label]="showConfirm() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+                [attr.aria-pressed]="showConfirm()"
+              >
+                @if (showConfirm()) {
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"
+                    />
+                    <line x1="1" y1="1" x2="23" y2="23" />
+                  </svg>
+                } @else {
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                }
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <label class="check terms">
+          <input type="checkbox" name="terms" />
+          <span class="check__box"></span>
+          <span
+            >Acepto los
+            <a href="#" class="link" (click)="$event.preventDefault(); $event.stopPropagation(); showTerms.set(!showTerms())"
+              >términos y condiciones</a
+            >
+            de la plataforma.</span
+          >
+        </label>
+
+        @if (showTerms()) {
+          <p class="terms-note" role="note">
+            Mente Financiera es un proyecto académico de demostración. Tus datos se guardan
+            únicamente en este navegador y no se comparten con terceros.
+          </p>
+        }
+
+        @if (error()) {
+          <p class="error" role="alert">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            <span>{{ error() }}</span>
+          </p>
+        }
+
+        <button type="submit" class="submit">
+          Crear cuenta
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
+          </svg>
+        </button>
+      </form>
+
+      <p class="switch">¿Ya tienes cuenta?<a routerLink="/login" class="link">Inicia sesión</a></p>
+    </div>
+  </section>
+</main>

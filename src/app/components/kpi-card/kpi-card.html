@@ -1,0 +1,12 @@
+<article class="card kpi">
+  <p class="kpi__label">{{ label }}</p>
+  <div class="kpi__data">
+    <div class="kpi__num">
+      <p class="kpi__value">{{ value }}</p>
+      <p class="kpi__delta" [class.kpi__delta--down]="down">{{ delta }}</p>
+    </div>
+    <svg class="kpi__spark" width="80" height="32" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <polyline class="kpi__spark-line" [class.kpi__spark-line--down]="down" [attr.points]="points" fill="none" stroke-width="2"/>
+    </svg>
+  </div>
+</article>

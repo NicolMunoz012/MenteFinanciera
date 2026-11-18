@@ -1,0 +1,108 @@
+:host {
+  display: contents;
+}
+
+.alerts-card {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 clamp(420px, 40%, 600px);
+  gap: 10px;
+  min-width: 0;
+  padding: clamp(20px, 2.4vw, 26px);
+}
+
+@media (max-width: 1200px) {
+  .alerts-card {
+    flex-basis: auto;
+  }
+}
+
+.alerts-card__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  padding-bottom: 6px;
+}
+
+.alerts-card__title {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.012em;
+  color: var(--text);
+}
+
+.alerts-card__link {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--teal);
+  white-space: nowrap;
+}
+
+.alerts-card__link:hover {
+  text-decoration: underline;
+}
+
+.alerts-card .empty-state {
+  margin-top: 6px;
+}
+
+.alert-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 -8px;
+  padding: 0;
+  list-style: none;
+}
+
+/* Filas separadas por un hairline en lugar de cajas anidadas dentro de la tarjeta. */
+.alert-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  width: calc(100% + 16px);
+  padding: 13px 8px;
+  border-radius: var(--r-sm);
+  transition: background 0.16s ease;
+}
+
+.alert-item + .alert-item {
+  box-shadow: inset 0 1px 0 var(--border);
+}
+
+.alert-item:hover {
+  background: var(--hover);
+}
+
+.alert-item__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 0;
+  gap: 3px;
+  min-width: 1px;
+  font-weight: 400;
+}
+
+.alert-item__text {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+.alert-item > svg {
+  margin-top: 5px;
+  color: var(--red);
+}
+
+.alert-item__time {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--dim);
+  white-space: nowrap;
+}

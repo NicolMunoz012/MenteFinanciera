@@ -1,0 +1,72 @@
+<div class="month-calendar">
+  <div class="month-calendar__header">
+    <button
+      class="month-calendar__nav"
+      type="button"
+      aria-label="Mes anterior"
+      (click)="changeMonth(-1)">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <h3 class="month-calendar__title">{{ monthLabel() }}</h3>
+
+    <div class="month-calendar__actions">
+      <button class="btn-secondary" type="button" (click)="goToToday()">Hoy</button>
+      <button
+        class="month-calendar__nav"
+        type="button"
+        aria-label="Mes siguiente"
+        (click)="changeMonth(1)">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="month-calendar__weekdays" aria-hidden="true">
+    <span *ngFor="let name of weekdayNames">{{ name }}</span>
+  </div>
+
+  <div class="month-calendar__grid">
+    <ng-container *ngFor="let day of calendarDays()">
+      <span class="month-calendar__blank" *ngIf="!day"></span>
+      <button
+        *ngIf="day"
+        class="cal-day"
+        type="button"
+        [class.cal-day--income]="day.activity === 'income'"
+        [class.cal-day--expense]="day.activity === 'expense'"
+        [class.cal-day--mixed]="day.activity === 'mixed'"
+        [class.cal-day--selected]="day.date === selectedDate"
+        [class.cal-day--today]="day.date === todayIso"
+        [style.--cal-level]="day.level"
+        [style.--cal-share]="day.incomeShare + '%'"
+        [attr.aria-pressed]="day.date === selectedDate"
+        [attr.aria-label]="calendarLabel(day)"
+        [attr.title]="calendarLabel(day)"
+        (click)="selectDay(day.date)">
+        <span class="cal-day__num">{{ day.date.slice(8) }}</span>
+        <span class="cal-day__bar" *ngIf="day.activity !== 'none'" aria-hidden="true"></span>
+      </button>
+    </ng-container>
+  </div>
+
+  <div class="month-calendar__legend">
+    <span class="month-calendar__legend-item">
+      <i class="legend__dot legend__dot--income" aria-hidden="true"></i>
+      Ingresos
+    </span>
+    <span class="month-calendar__legend-item">
+      <i class="legend__dot legend__dot--expense" aria-hidden="true"></i>
+      Gastos
+    </span>
+    <span class="month-calendar__legend-item">
+      <i class="legend__dot legend__dot--mixed" aria-hidden="true"></i>
+      Ambos
+    </span>
+    <span class="month-calendar__hint">Cuanto más intenso el color, mayor fue el monto del día frente a los demás días del mes.</span>
+  </div>
+</div>

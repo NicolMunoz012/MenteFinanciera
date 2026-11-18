@@ -1,0 +1,36 @@
+/* ---------- KPIs ---------- */
+
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+/* ---------- Gráficos / agente de voz y alertas ---------- */
+
+.core-split,
+.bottom-split {
+  display: flex;
+  align-items: stretch;
+  gap: 20px;
+  width: 100%;
+}
+
+/* En pantallas medianas y pequeñas las tarjetas se apilan */
+@media (max-width: 1200px) {
+  .kpi-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .core-split,
+  .bottom-split {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 640px) {
+  .kpi-row {
+    grid-template-columns: 1fr;
+  }
+}
